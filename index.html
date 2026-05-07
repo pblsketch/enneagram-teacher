@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>교사 애니어그램 테스트</title>
+<title>교사 에니어그램 테스트</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -133,8 +133,8 @@ h3{font-size:1.1rem;font-weight:600}
 <!-- ============ HERO ============ -->
 <section id="page-hero">
 <div class="hero">
-  <img src="images/hero-teacher.png" alt="교사 애니어그램" style="width:200px;height:200px;border-radius:50%;object-fit:cover;box-shadow:0 4px 24px rgba(91,106,191,.18);margin-bottom:8px">
-  <h1>교사 애니어그램 테스트</h1>
+  <img src="images/hero-teacher.png" alt="교사 에니어그램" style="width:200px;height:200px;border-radius:50%;object-fit:cover;box-shadow:0 4px 24px rgba(91,106,191,.18);margin-bottom:8px">
+  <h1>교사 에니어그램 테스트</h1>
   <p>나의 교수 스타일과 성격 유형을 발견하고,<br>더 나은 교육자로 성장하는 첫걸음</p>
   <div class="features">
     <div class="feature"><div class="feature-icon">&#128218;</div><div class="feature-label">27문항<br>약 5분</div></div>
@@ -605,7 +605,7 @@ function showResult(){
   html += `<div class="card">
     <h3 class="section-title">&#128260; 성장과 스트레스 방향</h3>
     <p style="font-size:.88rem;color:var(--sub);margin-bottom:12px">
-      애니어그램의 화살표는 각 유형이 성장(통합)과 스트레스(분열) 시 어떤 유형의 특성을 보이는지를 나타냅니다.
+      에니어그램의 화살표는 각 유형이 성장(통합)과 스트레스(분열) 시 어떤 유형의 특성을 보이는지를 나타냅니다.
       <br><small>(Riso & Hudson, <i>The Wisdom of the Enneagram</i>, 2000)</small>
     </p>
     <div class="arrow-diagram">
@@ -677,7 +677,7 @@ function showResult(){
     </div>
     <p style="font-size:.78rem;color:#999;margin-top:12px;text-align:center">
       본 테스트는 Riso-Hudson Enneagram Type Indicator(RHETI) 및 공인 학술 자료를 참고하여 교사 맥락에 맞게 재구성한 것입니다.<br>
-      정확한 애니어그램 유형 확인을 위해서는 공인 전문가의 상담을 권장합니다.
+      정확한 에니어그램 유형 확인을 위해서는 공인 전문가의 상담을 권장합니다.
     </p>
   </div>`;
 
@@ -715,7 +715,7 @@ function saveAsImage(){
       logging:false
     }).then(canvas=>{
       const link = document.createElement('a');
-      link.download = `교사_애니어그램_결과_${new Date().toLocaleDateString('ko')}.png`;
+      link.download = `교사_에니어그램_결과_${new Date().toLocaleDateString('ko')}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     });
@@ -735,7 +735,7 @@ function copyResult(){
   const data = TYPE_DATA[mainType];
   const arrows = ARROWS[mainType];
 
-  let text = `[교사 애니어그램 테스트 결과]\n\n`;
+  let text = `[교사 에니어그램 테스트 결과]\n\n`;
   text += `유형: ${mainType}번 ${TYPE_NAMES[mainType]} (The ${TYPE_ENG[mainType]})\n`;
   text += `날개: ${mainType}w${wing}\n`;
   text += `센터: ${CENTERS[getCenterForType(mainType)].name}\n\n`;
