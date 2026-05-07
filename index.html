@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교사 애니어그램 테스트</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#faf9f7;--card:#fff;--text:#2d2d2d;--sub:#6b6b6b;
+  --accent:#5B6ABF;--accent2:#7B8AD6;--border:#e8e6e3;
+  --shadow:0 2px 16px rgba(0,0,0,.06);
+  --radius:16px;
+  --type1:#6EC1E4;--type2:#E8A87C;--type3:#F6D55C;
+  --type4:#9B59B6;--type5:#3498DB;--type6:#27AE60;
+  --type7:#F39C12;--type8:#E74C3C;--type9:#1ABC9C;
+}
+body{font-family:'Pretendard Variable',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:680px;margin:0 auto;padding:20px}
+h1{font-size:1.8rem;font-weight:700;letter-spacing:-.02em}
+h2{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:600}
+.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 32px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn:active{transform:scale(.97)}
+
+/* HERO */
+.hero{text-align:center;padding:60px 0 30px}
+.hero-icon{font-size:4rem;margin-bottom:16px}
+.hero h1{margin-bottom:12px}
+.hero p{color:var(--sub);font-size:1.05rem;max-width:420px;margin:0 auto 8px}
+.hero .ref{font-size:.8rem;color:#999;margin-top:16px}
+.features{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:28px 0}
+.feature{background:var(--card);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+.feature-icon{font-size:1.5rem;margin-bottom:6px}
+.feature-label{font-size:.82rem;color:var(--sub);font-weight:500}
+
+/* PROGRESS */
+.progress-bar{width:100%;height:6px;background:var(--border);border-radius:99px;margin-bottom:20px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .4s ease}
+.q-counter{text-align:center;font-size:.85rem;color:var(--sub);margin-bottom:16px;font-weight:500}
+
+/* QUESTION */
+.question-card{animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-text{font-size:1.1rem;font-weight:600;margin-bottom:24px;line-height:1.6}
+.likert{display:flex;flex-direction:column;gap:10px}
+.likert label{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s;font-size:.95rem}
+.likert label:hover{border-color:var(--accent);background:rgba(91,106,191,.04)}
+.likert input{display:none}
+.likert input:checked+.radio-dot{background:var(--accent);border-color:var(--accent)}
+.likert input:checked+.radio-dot::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.likert label:has(input:checked){border-color:var(--accent);background:rgba(91,106,191,.06)}
+.radio-dot{width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:50%;position:relative;transition:all .2s}
+.likert-label{color:var(--sub);font-size:.85rem}
+.nav-btns{display:flex;gap:12px;margin-top:24px}
+.nav-btns .btn{flex:1}
+
+/* RESULTS */
+.result-header{text-align:center;padding:16px 0}
+.type-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:99px;font-weight:700;font-size:1.1rem;margin:12px 0}
+.type-num{font-size:1.8rem;font-weight:800}
+.score-chart{margin:20px 0}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.score-label{width:90px;font-size:.85rem;font-weight:500;text-align:right;flex-shrink:0}
+.score-bar-bg{flex:1;height:24px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
+.score-bar-fill{height:100%;border-radius:8px;transition:width .8s ease;min-width:2px}
+.score-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.75rem;font-weight:600;color:var(--text)}
+
+.section-title{font-size:1rem;font-weight:700;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+.tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.78rem;font-weight:600;margin:2px}
+.tag-center{background:#EDE7F6;color:#5B6ABF}
+.tag-wing{background:#E8F5E9;color:#27AE60}
+.tag-growth{background:#E3F2FD;color:#1976D2}
+.tag-stress{background:#FCE4EC;color:#C62828}
+
+.detail-grid{display:grid;gap:12px;margin:12px 0}
+.detail-item{background:var(--bg);border-radius:12px;padding:16px}
+.detail-item h4{font-size:.9rem;font-weight:600;margin-bottom:6px}
+.detail-item p{font-size:.88rem;color:var(--sub);line-height:1.6}
+.detail-item ul{padding-left:16px;margin-top:6px}
+.detail-item li{font-size:.88rem;color:var(--sub);margin-bottom:4px}
+
+.wing-card{display:flex;gap:12px;margin:8px 0}
+.wing-card>div{flex:1;background:var(--bg);border-radius:12px;padding:14px}
+.wing-card h4{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.wing-card p{font-size:.82rem;color:var(--sub);line-height:1.5}
+
+.arrow-diagram{display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0;padding:20px;background:var(--bg);border-radius:12px}
+.arrow-box{text-align:center;padding:12px 16px;border-radius:10px;font-weight:600;font-size:.9rem}
+.arrow-icon{font-size:1.5rem;color:var(--sub)}
+
+.save-area{text-align:center;margin:24px 0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+.ref-section{background:var(--bg);border-radius:12px;padding:16px;margin-top:16px}
+.ref-section h4{font-size:.85rem;font-weight:600;margin-bottom:8px}
+.ref-section p{font-size:.78rem;color:var(--sub);line-height:1.5;margin-bottom:4px}
+
+.hidden{display:none!important}
+
+/* IMAGE AREA */
+.type-image{width:100%;max-width:320px;margin:16px auto;display:block;border-radius:16px;box-shadow:var(--shadow)}
+
+/* RESPONSIVE */
+@media(max-width:500px){
+  .container{padding:12px}
+  .card{padding:20px}
+  h1{font-size:1.5rem}
+  .features{grid-template-columns:1fr}
+  .wing-card{flex-direction:column}
+  .hero{padding:40px 0 20px}
+  .arrow-diagram{flex-direction:column;gap:8px}
+}
+
+/* PRINT */
+@media print{
+  body{background:#fff}
+  .btn,.save-area,.nav-btns{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+</head>
+<body>
+
+<div class="container" id="app">
+
+<!-- ============ HERO ============ -->
+<section id="page-hero">
+<div class="hero">
+  <img src="images/hero-teacher.png" alt="교사 애니어그램" style="width:200px;height:200px;border-radius:50%;object-fit:cover;box-shadow:0 4px 24px rgba(91,106,191,.18);margin-bottom:8px">
+  <h1>교사 애니어그램 테스트</h1>
+  <p>나의 교수 스타일과 성격 유형을 발견하고,<br>더 나은 교육자로 성장하는 첫걸음</p>
+  <div class="features">
+    <div class="feature"><div class="feature-icon">&#128218;</div><div class="feature-label">27문항<br>약 5분</div></div>
+    <div class="feature"><div class="feature-icon">&#128300;</div><div class="feature-label">9유형<br>상세 분석</div></div>
+    <div class="feature"><div class="feature-icon">&#127891;</div><div class="feature-label">교사 맞춤<br>해석</div></div>
+  </div>
+  <button class="btn btn-primary" onclick="startTest()">테스트 시작하기</button>
+  <div class="ref">Riso-Hudson Enneagram Type Indicator(RHETI),<br>The Enneagram Institute 연구 기반</div>
+</div>
+</section>
+
+<!-- ============ TEST ============ -->
+<section id="page-test" class="hidden">
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+<div class="q-counter" id="qCounter"></div>
+<div class="card">
+  <div id="questionArea"></div>
+  <div class="nav-btns">
+    <button class="btn btn-secondary" id="btnPrev" onclick="prevQ()">이전</button>
+    <button class="btn btn-primary" id="btnNext" onclick="nextQ()">다음</button>
+  </div>
+</div>
+</section>
+
+<!-- ============ RESULT ============ -->
+<section id="page-result" class="hidden">
+<div id="resultContent"></div>
+</section>
+
+</div>
+
+<script>
+// ==========================================
+// DATA
+// ==========================================
+
+const TYPE_COLORS = {
+  1:'#6EC1E4',2:'#E8A87C',3:'#F6D55C',4:'#9B59B6',5:'#3498DB',
+  6:'#27AE60',7:'#F39C12',8:'#E74C3C',9:'#1ABC9C'
+};
+
+const TYPE_NAMES = {
+  1:'개혁가',2:'조력자',3:'성취자',4:'예술가',5:'탐구자',
+  6:'충실가',7:'열정가',8:'도전자',9:'중재자'
+};
+
+const TYPE_ENG = {
+  1:'Reformer',2:'Helper',3:'Achiever',4:'Individualist',5:'Investigator',
+  6:'Loyalist',7:'Enthusiast',8:'Challenger',9:'Peacemaker'
+};
+
+// 상징 동물 — Richard Rohr & Andreas Ebert, "The Enneagram: A Christian Perspective" (Crossroad, 2001)
+const TYPE_ANIMALS = {
+  1:{healthy:'🐜 개미',unhealthy:'🐝 벌',healthyDesc:'근면하고 체계적으로 일하며, 공동체를 위해 헌신합니다. 교사로서 성실하게 수업을 준비하고 원칙을 지킵니다.',unhealthyDesc:'완벽을 향한 집착이 과도해지면 벌처럼 끊임없이 주변을 쏘아붙이고 비판적으로 변할 수 있습니다.'},
+  2:{healthy:'🐕 아이리시 세터',unhealthy:'🐱 고양이',healthyDesc:'따뜻하고 친근한 에너지로 다가가며, 학생들에게 무조건적인 사랑을 보여줍니다.',unhealthyDesc:'자신의 필요를 숨기면서 관심과 애정을 요구하는 고양이처럼, 은밀하게 인정을 갈구할 수 있습니다.'},
+  3:{healthy:'🦅 독수리',unhealthy:'🦚 공작',healthyDesc:'높은 곳에서 전체를 조망하며 기회를 포착합니다. 교사로서 비전을 제시하고 학생들을 이끕니다.',unhealthyDesc:'외면의 화려함에 집착하여 실질적 성과보다 겉모습에 치중할 수 있습니다.'},
+  4:{healthy:'🐴 검은 야생마',unhealthy:'🐕‍🦺 바셋 하운드',healthyDesc:'아름답고 독립적이며 강인한 존재감으로, 교실에서 깊이 있는 감동을 만듭니다.',unhealthyDesc:'슬프고 축 처진 모습으로 우울에 빠져, 에너지가 저하되고 자기 연민에 머물 수 있습니다.'},
+  5:{healthy:'🦉 부엉이',unhealthy:'🦊 여우',healthyDesc:'지혜롭고 관찰력이 뛰어나며, 깊은 지식으로 학생들에게 통찰을 전달합니다.',unhealthyDesc:'교활하게 거리를 두며 관계를 회피하고, 지식을 독점하려는 경향이 나타날 수 있습니다.'},
+  6:{healthy:'🦌 사슴',unhealthy:'🐇 토끼',healthyDesc:'우아하고 자유로우며, 위험을 감지하면서도 용기 있게 앞으로 나아갑니다.',unhealthyDesc:'두려움에 사로잡혀 작은 자극에도 도망치려 하고, 과도하게 불안해할 수 있습니다.'},
+  7:{healthy:'🦋 나비',unhealthy:'🐒 원숭이',healthyDesc:'아름답게 변화하며 꽃에서 꽃으로 기쁨을 전파합니다. 교실에 활력과 영감을 불어넣습니다.',unhealthyDesc:'산만하게 이 가지 저 가지 뛰어다니며, 깊이 없이 표면적 재미만 추구할 수 있습니다.'},
+  8:{healthy:'🐅 호랑이',unhealthy:'🦏 코뿔소',healthyDesc:'강인하면서도 약한 자를 보호합니다. 교사로서 학생들의 든든한 보호자 역할을 합니다.',unhealthyDesc:'무분별하게 돌진하며 주변의 감정을 짓밟고, 자신의 힘을 과시할 수 있습니다.'},
+  9:{healthy:'🐬 돌고래',unhealthy:'🦥 나무늘보',healthyDesc:'즐겁게 어울리며 조화로운 관계를 만들어갑니다. 교실에서 평화로운 분위기를 조성합니다.',unhealthyDesc:'변화를 거부하고 무기력하게 현상유지만 하며, 갈등을 회피할 수 있습니다.'}
+};
+
+const CENTERS = {
+  body:{name:'본능(장) 센터',types:[8,9,1],emotion:'분노',desc:'본능 센터에 속하는 유형은 분노와 관련된 감정을 핵심적으로 경험합니다. 신체적 감각과 직관에 의존하며, 자율성과 통제에 대한 욕구가 강합니다. 교사로서 교실의 질서와 공정함을 중시합니다.'},
+  heart:{name:'감정(가슴) 센터',types:[2,3,4],emotion:'수치심',desc:'감정 센터에 속하는 유형은 수치심과 자아 이미지에 민감합니다. 타인과의 관계에서 자신의 정체성을 형성하며, 인정과 연결을 갈망합니다. 교사로서 학생들과의 정서적 유대를 중시합니다.'},
+  head:{name:'사고(머리) 센터',types:[5,6,7],emotion:'불안/두려움',desc:'사고 센터에 속하는 유형은 불안과 두려움을 핵심적으로 경험합니다. 분석과 계획을 통해 안전감을 확보하려 합니다. 교사로서 체계적인 준비와 지적 탐구를 중시합니다.'}
+};
+
+// Integration(성장)/Disintegration(스트레스) 방향
+// Riso-Hudson 기반: 성장 시 해당 유형의 건강한 특성을 통합
+const ARROWS = {
+  1:{growth:7,stress:4},2:{growth:4,stress:8},3:{growth:6,stress:9},
+  4:{growth:1,stress:2},5:{growth:8,stress:7},6:{growth:9,stress:3},
+  7:{growth:5,stress:1},8:{growth:2,stress:5},9:{growth:3,stress:6}
+};
+
+const WINGS = {
+  '1w9':{name:'1w9: 이상주의자',desc:'원칙적이면서도 차분하고 수용적인 교사. 높은 기준을 가지지만 학생들에게 인내심을 보이며, 조용하고 체계적인 학습 환경을 만듭니다.'},
+  '1w2':{name:'1w2: 옹호자',desc:'정의감이 강하면서도 학생들을 돌보는 교사. 올바른 것을 추구하면서 학생 개개인에게 따뜻한 관심을 기울이며, 적극적으로 학생을 지도합니다.'},
+  '2w1':{name:'2w1: 봉사자',desc:'헌신적이면서도 원칙적인 교사. 학생들을 돕되 명확한 기준과 경계를 가지며, 도덕적 사명감으로 교육에 임합니다.'},
+  '2w3':{name:'2w3: 주인공',desc:'따뜻하면서도 성과 지향적인 교사. 학생들의 정서적 필요를 챙기면서도 목표 달성을 독려하며, 에너지가 넘칩니다.'},
+  '3w2':{name:'3w2: 매력가',desc:'성취 지향적이면서도 사교적인 교사. 학생들의 성공을 돕는 데 열정적이며, 따뜻한 카리스마로 동기부여합니다.'},
+  '3w4':{name:'3w4: 전문가',desc:'성과를 추구하면서도 깊이 있는 교사. 효율성과 창의성을 겸비하며, 독자적인 교수법을 개발합니다.'},
+  '4w3':{name:'4w3: 귀족',desc:'감성적이면서도 야심 있는 교사. 예술적 감각과 실행력을 겸비하며, 학생들이 자신만의 재능을 발견하도록 이끕니다.'},
+  '4w5':{name:'4w5: 보헤미안',desc:'깊이 있고 독창적인 교사. 풍부한 내면세계와 지적 호기심으로 학생들에게 독특한 관점을 제시합니다.'},
+  '5w4':{name:'5w4: 상징주의자',desc:'지적이면서도 감성적인 교사. 깊은 통찰력과 창의적 사고로 수업에 독특한 깊이를 더합니다.'},
+  '5w6':{name:'5w6: 문제해결사',desc:'분석적이면서도 실용적인 교사. 체계적인 지식과 현실적 문제 해결을 결합하여 학생들을 지도합니다.'},
+  '6w5':{name:'6w5: 방어자',desc:'신중하면서도 지적인 교사. 안전한 학습 환경을 만들면서 심도 있는 내용을 전달하며, 꼼꼼하게 준비합니다.'},
+  '6w7':{name:'6w7: 친구',desc:'충성스러우면서도 유쾌한 교사. 학생들에게 든든한 지지자이면서 밝은 에너지로 교실 분위기를 만듭니다.'},
+  '7w6':{name:'7w6: 엔터테이너',desc:'활발하면서도 책임감 있는 교사. 재미있는 수업을 만들면서도 학생들과의 유대를 중시합니다.'},
+  '7w8':{name:'7w8: 현실주의자',desc:'열정적이면서도 추진력 있는 교사. 다양한 경험을 제공하면서 강한 실행력으로 프로젝트를 이끕니다.'},
+  '8w7':{name:'8w7: 독립가',desc:'강하면서도 활력 넘치는 교사. 도전적인 과제를 제시하며 학생들이 자신감을 갖도록 힘을 실어줍니다.'},
+  '8w9':{name:'8w9: 곰',desc:'강인하면서도 차분한 교사. 학생들을 보호하면서도 편안한 분위기를 만들며, 묵직한 존재감이 있습니다.'},
+  '9w8':{name:'9w8: 중재자',desc:'평화로우면서도 단호한 교사. 조화를 추구하지만 필요할 때 강하게 나설 수 있으며, 학생들을 공정하게 대합니다.'},
+  '9w1':{name:'9w1: 꿈꾸는 이',desc:'온화하면서도 원칙적인 교사. 포용적인 환경을 만들면서도 내면의 이상을 추구하며, 꾸준하고 일관된 모습을 보입니다.'}
+};
+
+const TYPE_DATA = {
+  1:{
+    core_motive:'완벽함과 올바름 추구',
+    core_fear:'결함이 있거나 타락한 사람이 될까 두려움',
+    healthy:'원칙적이고 공정하며, 높은 윤리 의식을 가지고 학생들에게 롤모델이 됩니다. 유연성을 갖추고 실수를 수용합니다.',
+    unhealthy:'지나친 완벽주의로 자신과 학생들을 압박하고, 비판적이며 경직된 모습을 보입니다.',
+    teacher_style:'체계적이고 공정한 교실을 운영합니다. 명확한 규칙과 높은 기준을 제시하며, 학생들이 올바르게 성장하도록 이끕니다. 수업 준비가 철저하고 일관성 있는 평가를 합니다.',
+    strengths:['철저한 수업 준비와 체계적인 교육과정 운영','공정하고 일관된 평가 기준','학생들에게 올바른 학습 습관 형성 지도','책임감 있는 롤모델'],
+    growth_tips:['완벽하지 않아도 괜찮다는 것을 기억하세요','학생들의 과정을 결과만큼 인정해 주세요','수업에 즐거움과 유머를 더해보세요','자기 자신에게도 관대해지세요']
+  },
+  2:{
+    core_motive:'사랑받고 필요한 존재가 되기',
+    core_fear:'사랑받지 못하거나 불필요한 존재가 될까 두려움',
+    healthy:'진심으로 학생들을 돌보며, 자기 자신의 필요도 알아차립니다. 경계를 유지하면서도 따뜻한 관계를 맺습니다.',
+    unhealthy:'과도하게 헌신하다 번아웃되고, 인정받지 못하면 서운해하며, 학생들의 의존을 조장할 수 있습니다.',
+    teacher_style:'따뜻하고 돌봄 중심의 교실을 만듭니다. 학생 개개인에게 관심을 기울이며, 정서적 안전감을 제공합니다. 동료 교사들과도 적극적으로 협력합니다.',
+    strengths:['학생들과의 깊은 정서적 유대','세심한 관찰력으로 학생의 어려움을 빠르게 감지','따뜻하고 포용적인 교실 분위기 조성','동료와의 협력적 관계 구축'],
+    growth_tips:['자기 자신의 필요도 돌봐주세요','모든 것을 해결해주려 하지 마세요','학생들의 자립심을 키워주세요','거절하는 것도 건강한 것임을 기억하세요']
+  },
+  3:{
+    core_motive:'가치 있는 사람이 되고 성공하기',
+    core_fear:'무가치하거나 실패한 사람이 될까 두려움',
+    healthy:'효율적이고 영감을 주는 교사로, 학생들의 잠재력을 최대로 이끌어냅니다. 진정성 있는 모습으로 소통합니다.',
+    unhealthy:'이미지에 집착하고, 학생들의 성적만을 성공의 척도로 삼으며, 진정한 관계보다 성과를 우선시합니다.',
+    teacher_style:'목표 지향적이고 에너지 넘치는 교실을 운영합니다. 학생들에게 도전적인 목표를 제시하고, 성장을 독려합니다. 새로운 교수법을 적극적으로 도입합니다.',
+    strengths:['명확한 목표 설정과 달성 지원','효율적인 시간 관리와 수업 운영','학생들의 동기부여에 탁월','변화에 빠르게 적응하는 유연성'],
+    growth_tips:['성과보다 과정과 관계를 중시해 보세요','학생들의 감정에 더 귀 기울여 주세요','완벽한 이미지를 내려놓고 진솔해지세요','쉬어가는 것도 생산성임을 기억하세요']
+  },
+  4:{
+    core_motive:'고유한 정체성을 찾고 진정한 자기가 되기',
+    core_fear:'평범하고 무의미한 존재가 될까 두려움',
+    healthy:'깊은 감성과 창의력으로 학생들에게 예술적 영감을 줍니다. 진정성 있게 감정을 표현하며 학생들의 개성을 존중합니다.',
+    unhealthy:'감정 기복이 심하고, 우울감에 빠지며, 자신만의 세계에 갇혀 소통이 어려워집니다.',
+    teacher_style:'창의적이고 깊이 있는 교실을 만듭니다. 학생들의 자기 표현을 격려하고, 예술과 감성을 교육에 녹여냅니다. 학생 한 명 한 명의 고유함을 인정합니다.',
+    strengths:['학생들의 개성과 감정에 대한 깊은 이해','창의적이고 영감을 주는 수업 설계','진정성 있는 교사-학생 관계','복잡한 주제를 감성적으로 전달하는 능력'],
+    growth_tips:['감정에 매몰되지 말고 객관적 시각도 가져보세요','일상적인 루틴도 중요함을 인정하세요','다른 사람의 관점도 가치 있음을 기억하세요','지금 이 순간에 감사하는 연습을 하세요']
+  },
+  5:{
+    core_motive:'세상을 이해하고 유능해지기',
+    core_fear:'무능하거나 무력한 존재가 될까 두려움',
+    healthy:'깊은 지식과 통찰력으로 학생들에게 지적 자극을 줍니다. 복잡한 개념을 명쾌하게 설명하며 호기심을 자극합니다.',
+    unhealthy:'지나치게 고립되고, 감정적 교류를 회피하며, 이론에만 몰두하여 학생과의 거리가 벌어집니다.',
+    teacher_style:'차분하고 지적인 교실 분위기를 만듭니다. 깊이 있는 토론과 비판적 사고를 장려합니다. 철저한 연구를 바탕으로 수업합니다.',
+    strengths:['깊이 있는 전문 지식과 분석력','체계적이고 논리적인 수업 진행','학생들의 비판적 사고력 향상 지도','독립적이고 자기 주도적인 학습 유도'],
+    growth_tips:['학생들과 감정적으로도 소통해 보세요','완벽한 준비보다 즉흥적 소통도 시도하세요','교실 밖 활동에도 참여해 보세요','에너지가 소진될 때 적절히 충전하세요']
+  },
+  6:{
+    core_motive:'안전하고 지지받는 환경 만들기',
+    core_fear:'도움 없이 혼자가 될까, 안전하지 않을까 두려움',
+    healthy:'책임감 있고 충실하며, 학생들에게 안전한 환경을 제공합니다. 위기 대처 능력이 뛰어나고 신뢰를 줍니다.',
+    unhealthy:'과도한 걱정과 불안으로 우유부단하고, 최악의 시나리오를 상상하며, 권위에 대해 양가적입니다.',
+    teacher_style:'안전하고 예측 가능한 교실을 만듭니다. 충분한 자료와 지원을 제공하며, 학생들이 안심할 수 있는 구조를 만듭니다. 위기 상황에 강합니다.',
+    strengths:['체계적인 위험 관리와 안전한 교실 운영','학생들에게 신뢰감과 안정감 제공','충분한 자료 준비와 자원 공유','문제 상황 예방 및 대처 능력'],
+    growth_tips:['걱정보다 현재에 집중하는 연습을 하세요','학생들과 자신을 더 신뢰해 보세요','새로운 시도를 두려워하지 마세요','불확실함 속에서도 괜찮다는 것을 기억하세요']
+  },
+  7:{
+    core_motive:'행복하고 만족스러운 삶을 경험하기',
+    core_fear:'고통 속에 갇히거나 박탈당할까 두려움',
+    healthy:'긍정적이고 창의적이며, 다양한 경험을 통해 학생들의 호기심을 자극합니다. 유머와 열정이 넘칩니다.',
+    unhealthy:'산만하고 깊이 없이 여러 것을 동시에 추구하며, 어려운 감정을 회피하고 책임을 가볍게 여깁니다.',
+    teacher_style:'활기차고 즐거운 교실을 만듭니다. 다양한 활동과 경험을 제공하며, 긍정적인 에너지로 학생들을 이끕니다. 창의적인 프로젝트를 좋아합니다.',
+    strengths:['열정적이고 에너지 넘치는 수업','다양한 교수법과 활동으로 학생 참여 유도','긍정적이고 낙관적인 교실 분위기','창의적인 프로젝트 기획 능력'],
+    growth_tips:['하나에 집중하는 연습을 해보세요','어려운 감정도 피하지 말고 마주하세요','학생들에게 일관된 구조를 제공하세요','깊이 있는 학습의 가치를 인정하세요']
+  },
+  8:{
+    core_motive:'자신을 보호하고 환경을 통제하기',
+    core_fear:'약하거나 통제당할까 두려움',
+    healthy:'정의롭고 보호적이며, 학생들이 자신감을 갖도록 힘을 실어줍니다. 솔직하고 결단력 있습니다.',
+    unhealthy:'지나치게 통제적이고 공격적이며, 약함을 드러내지 않으려 하고, 대립을 일으킵니다.',
+    teacher_style:'공정하고 도전적인 교실을 운영합니다. 학생들에게 직접적으로 소통하며, 약자를 보호합니다. 강한 리더십으로 교실을 이끕니다.',
+    strengths:['학생들을 위한 강한 옹호자','직접적이고 솔직한 소통','결단력 있고 효율적인 의사결정','약한 학생들을 보호하는 정의감'],
+    growth_tips:['부드러움도 강함의 일부임을 기억하세요','학생들의 의견을 더 경청해 주세요','통제를 내려놓고 신뢰하는 연습을 하세요','감정적 취약함을 보이는 용기를 가져보세요']
+  },
+  9:{
+    core_motive:'내적 평화와 조화를 유지하기',
+    core_fear:'갈등이나 단절에 처할까 두려움',
+    healthy:'포용적이고 중립적이며, 모든 학생을 수용합니다. 평화로운 환경에서 학생들이 자유롭게 성장하도록 돕습니다.',
+    unhealthy:'갈등을 회피하고 수동적이며, 자기 의견을 표현하지 않고, 나태해집니다.',
+    teacher_style:'편안하고 수용적인 교실을 만듭니다. 학생들 사이의 갈등을 중재하고, 협력을 장려합니다. 차별 없이 모든 학생을 대합니다.',
+    strengths:['포용적이고 비판단적인 교실 분위기','학생 간 갈등의 효과적인 중재','다양한 의견을 수용하는 유연성','안정적이고 일관된 지지 제공'],
+    growth_tips:['갈등을 회피하지 말고 건설적으로 다뤄보세요','자신의 의견과 우선순위를 명확히 하세요','때로는 단호하게 경계를 설정하세요','자기 자신의 목표와 열정을 되찾으세요']
+  }
+};
+
+// QUESTIONS - 교사 맥락에 맞게 적응한 27문항 (유형당 3문항)
+// RHETI, WEPSS, iEQ9 등 공인 검사 구조를 참고하여 Likert 5점 척도로 설계
+const QUESTIONS = [
+  // Type 1 - 개혁가
+  {type:1,text:'수업 자료에 오류가 있으면 아무리 작은 것이라도 반드시 수정한 후에 학생들에게 제공합니다.'},
+  {type:1,text:'학생들이 규칙을 지키지 않으면 공정하게 지적하는 것이 교사의 의무라고 생각합니다.'},
+  {type:1,text:'스스로에게 "더 잘할 수 있었을 텐데"라고 말하며 수업을 되돌아보는 일이 잦습니다.'},
+  // Type 2 - 조력자
+  {type:2,text:'학생이 힘들어 보이면 수업 중이라도 먼저 다가가 안부를 묻게 됩니다.'},
+  {type:2,text:'동료 교사들의 업무를 자발적으로 도와주는 것이 자연스럽습니다.'},
+  {type:2,text:'학생들이 저를 좋아하고 의지하는 것이 교사로서 가장 보람 있는 순간입니다.'},
+  // Type 3 - 성취자
+  {type:3,text:'학생들의 성취 결과(성적, 대회 수상 등)를 통해 제 교육의 효과를 확인합니다.'},
+  {type:3,text:'새로운 교수법이나 기술을 다른 교사들보다 빠르게 도입하는 편입니다.'},
+  {type:3,text:'업무를 효율적으로 처리하고 빠르게 성과를 내는 것에 자부심을 느낍니다.'},
+  // Type 4 - 예술가
+  {type:4,text:'다른 교사들과는 다른 나만의 독특한 교수 방식이 있다고 느낍니다.'},
+  {type:4,text:'학생들이 자기만의 감정과 생각을 깊이 표현할 수 있도록 격려합니다.'},
+  {type:4,text:'교직 생활에서 의미와 진정성이 느껴지지 않으면 깊은 허무감을 경험합니다.'},
+  // Type 5 - 탐구자
+  {type:5,text:'수업 전에 관련 자료를 충분히 조사하고 깊이 이해한 후에야 안심이 됩니다.'},
+  {type:5,text:'교실에서 많은 에너지를 소모한 후에는 혼자만의 시간이 꼭 필요합니다.'},
+  {type:5,text:'학생들에게 "왜?"라는 질문을 던지고 스스로 답을 찾도록 안내하는 것을 좋아합니다.'},
+  // Type 6 - 충실가
+  {type:6,text:'수업이나 행사 전에 일어날 수 있는 문제를 미리 예상하고 대비합니다.'},
+  {type:6,text:'학교 규정이나 지침을 잘 따르며, 구조화된 환경에서 안정감을 느낍니다.'},
+  {type:6,text:'새로운 교육 정책이 발표되면 그것이 실제로 효과가 있을지 충분히 검토합니다.'},
+  // Type 7 - 열정가
+  {type:7,text:'같은 방식으로 반복되는 수업보다 매번 새로운 활동을 기획하는 것이 즐겁습니다.'},
+  {type:7,text:'교실에서 웃음과 긍정적인 에너지를 만드는 것이 학습의 핵심이라 생각합니다.'},
+  {type:7,text:'여러 프로젝트나 아이디어를 동시에 진행하는 것이 자연스럽습니다.'},
+  // Type 8 - 도전자
+  {type:8,text:'불공정한 상황에서는 누구에게든 직접적으로 의견을 말하는 편입니다.'},
+  {type:8,text:'학생들이 스스로 문제를 해결하도록 도전적인 과제를 내주는 것을 좋아합니다.'},
+  {type:8,text:'교실에서 일어나는 일들을 제가 주도적으로 이끌어가는 것이 편합니다.'},
+  // Type 9 - 중재자
+  {type:9,text:'학생들 사이에 갈등이 생기면 양쪽 입장을 모두 이해하려고 노력합니다.'},
+  {type:9,text:'교실에서 편안하고 조화로운 분위기를 만드는 것을 가장 중요하게 여깁니다.'},
+  {type:9,text:'여러 의견이 대립할 때 제 의견을 강하게 주장하기보다 합의점을 찾으려 합니다.'}
+];
+
+const LIKERT_OPTIONS = [
+  {val:1,label:'전혀 그렇지 않다'},
+  {val:2,label:'그렇지 않은 편이다'},
+  {val:3,label:'보통이다'},
+  {val:4,label:'그런 편이다'},
+  {val:5,label:'매우 그렇다'}
+];
+
+// ==========================================
+// STATE
+// ==========================================
+let currentQ = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+// ==========================================
+// FUNCTIONS
+// ==========================================
+function show(id){
+  document.querySelectorAll('#app > section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startTest(){
+  currentQ = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  show('page-test');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentQ];
+  const pct = ((currentQ)/QUESTIONS.length*100).toFixed(0);
+  document.getElementById('progress').style.width = pct+'%';
+  document.getElementById('qCounter').textContent = `${currentQ+1} / ${QUESTIONS.length}`;
+
+  let html = `<p class="q-text">${q.text}</p><div class="likert">`;
+  LIKERT_OPTIONS.forEach(opt=>{
+    const checked = answers[currentQ]===opt.val?'checked':'';
+    html += `<label>
+      <input type="radio" name="q${currentQ}" value="${opt.val}" ${checked} onchange="selectAnswer(${opt.val})">
+      <span class="radio-dot"></span>
+      <span>${opt.label}</span>
+    </label>`;
+  });
+  html += '</div>';
+  document.getElementById('questionArea').innerHTML = html;
+
+  document.getElementById('btnPrev').style.visibility = currentQ===0?'hidden':'visible';
+  const btnNext = document.getElementById('btnNext');
+  if(currentQ === QUESTIONS.length-1){
+    btnNext.textContent = '결과 보기';
+  } else {
+    btnNext.textContent = '다음';
+  }
+}
+
+function selectAnswer(val){
+  answers[currentQ] = val;
+}
+
+function nextQ(){
+  if(answers[currentQ]===null){
+    // shake effect
+    const card = document.querySelector('.card');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'shake .4s ease';
+    return;
+  }
+  if(currentQ < QUESTIONS.length-1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ(){
+  if(currentQ>0){
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function calcScores(){
+  const scores = {};
+  for(let t=1;t<=9;t++) scores[t]=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]!==null) scores[q.type] += answers[i];
+  });
+  // Normalize to 0-100
+  const maxPerType = 15; // 3 questions * 5 max
+  const normalized = {};
+  for(let t=1;t<=9;t++){
+    normalized[t] = Math.round((scores[t]/maxPerType)*100);
+  }
+  return normalized;
+}
+
+function getTopType(scores){
+  let max=0, type=1;
+  for(let t=1;t<=9;t++){
+    if(scores[t]>max){max=scores[t];type=t;}
+  }
+  return type;
+}
+
+function getWing(scores, mainType){
+  const prev = mainType===1?9:mainType-1;
+  const next = mainType===9?1:mainType+1;
+  const wing = scores[prev]>=scores[next]?prev:next;
+  return wing;
+}
+
+function getCenterForType(t){
+  if([8,9,1].includes(t)) return 'body';
+  if([2,3,4].includes(t)) return 'heart';
+  return 'head';
+}
+
+function showResult(){
+  const scores = calcScores();
+  const mainType = getTopType(scores);
+  const wing = getWing(scores, mainType);
+  const wingKey = `${mainType}w${wing}`;
+  const center = getCenterForType(mainType);
+  const centerData = CENTERS[center];
+  const arrows = ARROWS[mainType];
+  const data = TYPE_DATA[mainType];
+  const wingData = WINGS[wingKey];
+
+  // Sort types by score
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+
+  let html = '';
+
+  // Header
+  html += `<div class="card result-header">
+    <h2>당신의 교사 유형</h2>
+    <img src="images/type${mainType}.png" alt="${TYPE_NAMES[mainType]} 교사" class="type-image">
+    <div class="type-badge" style="background:${TYPE_COLORS[mainType]}22;color:${TYPE_COLORS[mainType]}">
+      <span class="type-num">${mainType}</span>
+      <span>${TYPE_NAMES[mainType]} (The ${TYPE_ENG[mainType]})</span>
+    </div>
+    <p style="color:var(--sub);font-size:.95rem;margin-top:8px">${data.core_motive}</p>
+  </div>`;
+
+  // Score chart
+  html += `<div class="card"><h3 class="section-title">&#128202; 유형별 점수</h3><div class="score-chart">`;
+  sorted.forEach(([t,s])=>{
+    const isMain = parseInt(t)===mainType;
+    html += `<div class="score-row">
+      <span class="score-label" style="${isMain?'font-weight:700;color:'+TYPE_COLORS[t]:''}">
+        ${t}. ${TYPE_NAMES[t]}
+      </span>
+      <div class="score-bar-bg">
+        <div class="score-bar-fill" style="width:${s}%;background:${TYPE_COLORS[t]}${isMain?'':'88'}"></div>
+        <span class="score-val">${s}%</span>
+      </div>
+    </div>`;
+  });
+  html += '</div></div>';
+
+  // Center / Triad
+  html += `<div class="card">
+    <h3 class="section-title">&#129504; 센터 (트라이어드)</h3>
+    <span class="tag tag-center">${centerData.name}</span>
+    <span class="tag" style="background:#FFF3E0;color:#E65100">핵심 감정: ${centerData.emotion}</span>
+    <p style="margin-top:12px;font-size:.9rem;color:var(--sub);line-height:1.7">${centerData.desc}</p>
+  </div>`;
+
+  // Main Type Detail
+  html += `<div class="card">
+    <h3 class="section-title">&#127793; ${mainType}번 유형: ${TYPE_NAMES[mainType]} 교사</h3>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <h4>&#128155; 핵심 동기</h4>
+        <p>${data.core_motive}</p>
+      </div>
+      <div class="detail-item">
+        <h4>&#128560; 핵심 두려움</h4>
+        <p>${data.core_fear}</p>
+      </div>
+      <div class="detail-item">
+        <h4>&#127919; 교사로서의 특징</h4>
+        <p>${data.teacher_style}</p>
+      </div>
+      <div class="detail-item">
+        <h4>&#127775; 건강한 모습</h4>
+        <p>${data.healthy}</p>
+      </div>
+      <div class="detail-item">
+        <h4>&#9888;&#65039; 주의할 모습</h4>
+        <p>${data.unhealthy}</p>
+      </div>
+      <div class="detail-item">
+        <h4>&#128170; 교사로서의 강점</h4>
+        <ul>${data.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+      </div>
+    </div>
+  </div>`;
+
+  // 상징 동물
+  const animal = TYPE_ANIMALS[mainType];
+  html += `<div class="card">
+    <h3 class="section-title">&#128062; 상징 동물</h3>
+    <p style="font-size:.82rem;color:var(--sub);margin-bottom:14px">출처: Richard Rohr &amp; Andreas Ebert, <em>The Enneagram: A Christian Perspective</em> (2001)</p>
+    <div class="detail-grid">
+      <div class="detail-item" style="border-left:3px solid ${TYPE_COLORS[mainType]}">
+        <h4>&#127775; 건강할 때 — ${animal.healthy}</h4>
+        <p>${animal.healthyDesc}</p>
+      </div>
+      <div class="detail-item" style="border-left:3px solid #E57373">
+        <h4>&#9888;&#65039; 주의할 때 — ${animal.unhealthy}</h4>
+        <p>${animal.unhealthyDesc}</p>
+      </div>
+    </div>
+  </div>`;
+
+  // Wing
+  html += `<div class="card">
+    <h3 class="section-title">&#129657; 날개 (Wing)</h3>
+    <p style="font-size:.88rem;color:var(--sub);margin-bottom:12px">날개는 주유형에 영향을 주는 인접 유형으로, 당신의 성격에 독특한 색채를 더합니다.</p>
+    <span class="tag tag-wing">${wingData.name}</span>
+    <div class="wing-card">
+      <div>
+        <h4>${mainType}w${mainType===1?9:mainType-1}</h4>
+        <p>${WINGS[`${mainType}w${mainType===1?9:mainType-1}`].desc}</p>
+      </div>
+      <div>
+        <h4>${mainType}w${mainType===9?1:mainType+1}</h4>
+        <p>${WINGS[`${mainType}w${mainType===9?1:mainType+1}`].desc}</p>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:.88rem"><b>당신의 날개:</b> ${wingData.desc}</p>
+  </div>`;
+
+  // Integration / Disintegration
+  html += `<div class="card">
+    <h3 class="section-title">&#128260; 성장과 스트레스 방향</h3>
+    <p style="font-size:.88rem;color:var(--sub);margin-bottom:12px">
+      애니어그램의 화살표는 각 유형이 성장(통합)과 스트레스(분열) 시 어떤 유형의 특성을 보이는지를 나타냅니다.
+      <br><small>(Riso & Hudson, <i>The Wisdom of the Enneagram</i>, 2000)</small>
+    </p>
+    <div class="arrow-diagram">
+      <div class="arrow-box" style="background:#E3F2FD;color:#1565C0">
+        <small>성장 방향</small><br>
+        <b>${arrows.growth}번 ${TYPE_NAMES[arrows.growth]}</b>
+      </div>
+      <div class="arrow-icon">&#8592;</div>
+      <div class="arrow-box" style="background:${TYPE_COLORS[mainType]}22;color:${TYPE_COLORS[mainType]}">
+        <small>나의 유형</small><br>
+        <b>${mainType}번 ${TYPE_NAMES[mainType]}</b>
+      </div>
+      <div class="arrow-icon">&#8594;</div>
+      <div class="arrow-box" style="background:#FCE4EC;color:#C62828">
+        <small>스트레스 방향</small><br>
+        <b>${arrows.stress}번 ${TYPE_NAMES[arrows.stress]}</b>
+      </div>
+    </div>
+    <div class="detail-grid" style="grid-template-columns:1fr 1fr">
+      <div class="detail-item" style="border-left:3px solid #1976D2">
+        <h4>&#127793; 성장 시 (&#8594; ${arrows.growth}번)</h4>
+        <p>건강하게 성장할 때 ${arrows.growth}번 ${TYPE_NAMES[arrows.growth]} 유형의 긍정적 특성이 나타납니다. ${TYPE_DATA[arrows.growth].healthy.split('.')[0]}.</p>
+      </div>
+      <div class="detail-item" style="border-left:3px solid #C62828">
+        <h4>&#9888;&#65039; 스트레스 시 (&#8594; ${arrows.stress}번)</h4>
+        <p>스트레스를 받을 때 ${arrows.stress}번 ${TYPE_NAMES[arrows.stress]} 유형의 부정적 특성이 나타날 수 있습니다. ${TYPE_DATA[arrows.stress].unhealthy.split('.')[0]}.</p>
+      </div>
+    </div>
+  </div>`;
+
+  // Growth tips
+  html += `<div class="card">
+    <h3 class="section-title">&#127807; 교사로서의 성장 팁</h3>
+    <div class="detail-grid">
+      ${data.growth_tips.map(tip=>`<div class="detail-item"><p>${tip}</p></div>`).join('')}
+    </div>
+  </div>`;
+
+  // All 9 types overview
+  html += `<div class="card">
+    <h3 class="section-title">&#128214; 9가지 유형 한눈에 보기</h3>
+    <div class="detail-grid">`;
+  for(let t=1;t<=9;t++){
+    const isMe = t===mainType;
+    html += `<div class="detail-item" style="${isMe?'border:2px solid '+TYPE_COLORS[t]+';background:'+TYPE_COLORS[t]+'08':''}">
+      <h4 style="color:${TYPE_COLORS[t]}">${t}. ${TYPE_NAMES[t]} (${TYPE_ENG[t]}) ${isMe?'&#11088; 나의 유형':''}</h4>
+      <p><b>동기:</b> ${TYPE_DATA[t].core_motive}</p>
+      <p><b>교사 스타일:</b> ${TYPE_DATA[t].teacher_style.substring(0,60)}...</p>
+      <p style="font-size:.8rem;margin-top:4px">
+        <span class="tag tag-growth">성장&#8594;${ARROWS[t].growth}번</span>
+        <span class="tag tag-stress">스트레스&#8594;${ARROWS[t].stress}번</span>
+      </p>
+    </div>`;
+  }
+  html += '</div></div>';
+
+  // References
+  html += `<div class="card">
+    <h3 class="section-title">&#128218; 참고 문헌</h3>
+    <div class="ref-section">
+      <p>Riso, D. R., & Hudson, R. (2000). <i>The Wisdom of the Enneagram</i>. Bantam Books.</p>
+      <p>Riso, D. R., & Hudson, R. (1999). <i>Personality Types: Using the Enneagram for Self-Discovery</i>. Houghton Mifflin.</p>
+      <p>Palmer, H. (1991). <i>The Enneagram: Understanding Yourself and the Others in Your Life</i>. Harper One.</p>
+      <p>Naranjo, C. (1994). <i>Character and Neurosis: An Integrative View</i>. Gateways Books.</p>
+      <p>Hook, J. N., et al. (2021). The Enneagram: A systematic review of the literature. <i>Journal of Clinical Psychology</i>.</p>
+      <p>Daniels, D., & Price, V. (2009). <i>The Essential Enneagram</i>. Harper One.</p>
+      <p>Roh, H., et al. Understanding medical students' empathy based on Enneagram personality types. <i>Korean Journal of Medical Education</i>.</p>
+      <p>Hur, Y., & Lee, K. (2011). Analysis of students' enneagram personality types, stress, and developmental level. <i>Korean Journal of Medical Education</i>.</p>
+    </div>
+    <p style="font-size:.78rem;color:#999;margin-top:12px;text-align:center">
+      본 테스트는 Riso-Hudson Enneagram Type Indicator(RHETI) 및 공인 학술 자료를 참고하여 교사 맥락에 맞게 재구성한 것입니다.<br>
+      정확한 애니어그램 유형 확인을 위해서는 공인 전문가의 상담을 권장합니다.
+    </p>
+  </div>`;
+
+  // Save area
+  html += `<div class="save-area">
+    <button class="btn btn-primary" onclick="saveAsImage()">&#128247; 이미지로 저장</button>
+    <button class="btn btn-secondary" onclick="window.print()">&#128424; 인쇄 / PDF 저장</button>
+    <button class="btn btn-secondary" onclick="copyResult()">&#128203; 텍스트 복사</button>
+    <button class="btn btn-secondary" onclick="startTest()">&#128260; 다시 테스트</button>
+  </div>`;
+
+  document.getElementById('resultContent').innerHTML = html;
+  show('page-result');
+
+  // Animate bars
+  setTimeout(()=>{
+    document.querySelectorAll('.score-bar-fill').forEach(bar=>{
+      bar.style.width = bar.style.width;
+    });
+  },100);
+}
+
+function saveAsImage(){
+  const el = document.getElementById('page-result');
+  // Use html2canvas if available, otherwise fallback
+  if(typeof html2canvas !== 'undefined'){
+    html2canvas(el,{
+      backgroundColor:'#faf9f7',
+      scale:2,
+      useCORS:true,
+      logging:false
+    }).then(canvas=>{
+      const link = document.createElement('a');
+      link.download = `교사_애니어그램_결과_${new Date().toLocaleDateString('ko')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  } else {
+    // Load html2canvas dynamically
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+    script.onload = ()=>saveAsImage();
+    document.head.appendChild(script);
+  }
+}
+
+function copyResult(){
+  const scores = calcScores();
+  const mainType = getTopType(scores);
+  const wing = getWing(scores, mainType);
+  const data = TYPE_DATA[mainType];
+  const arrows = ARROWS[mainType];
+
+  let text = `[교사 애니어그램 테스트 결과]\n\n`;
+  text += `유형: ${mainType}번 ${TYPE_NAMES[mainType]} (The ${TYPE_ENG[mainType]})\n`;
+  text += `날개: ${mainType}w${wing}\n`;
+  text += `센터: ${CENTERS[getCenterForType(mainType)].name}\n\n`;
+  text += `핵심 동기: ${data.core_motive}\n`;
+  text += `핵심 두려움: ${data.core_fear}\n\n`;
+  text += `교사 스타일: ${data.teacher_style}\n\n`;
+  text += `성장 방향: ${arrows.growth}번 ${TYPE_NAMES[arrows.growth]}\n`;
+  text += `스트레스 방향: ${arrows.stress}번 ${TYPE_NAMES[arrows.stress]}\n\n`;
+  text += `유형별 점수:\n`;
+  Object.entries(scores).sort((a,b)=>b[1]-a[1]).forEach(([t,s])=>{
+    text += `  ${t}. ${TYPE_NAMES[t]}: ${s}%\n`;
+  });
+
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    btn.textContent = '복사됨!';
+    setTimeout(()=>btn.innerHTML = '&#128203; 텍스트 복사',1500);
+  });
+}
+
+// Shake animation
+const style = document.createElement('style');
+style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
