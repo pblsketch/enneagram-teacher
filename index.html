@@ -7,120 +7,302 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#faf9f7;--card:#fff;--text:#2d2d2d;--sub:#6b6b6b;
-  --accent:#5B6ABF;--accent2:#7B8AD6;--border:#e8e6e3;
-  --shadow:0 2px 16px rgba(0,0,0,.06);
-  --radius:16px;
-  --type1:#6EC1E4;--type2:#E8A87C;--type3:#F6D55C;
-  --type4:#9B59B6;--type5:#3498DB;--type6:#27AE60;
-  --type7:#F39C12;--type8:#E74C3C;--type9:#1ABC9C;
+  --bg:#F7F5F0;--bg-warm:#EDE9E0;--card:#FDFCFA;--text:#1A1A1A;--sub:#787068;
+  --accent:#3D5A80;--accent-light:#5A7CA5;--accent-faint:rgba(61,90,128,.06);
+  --border:#DDD8CE;--border-light:#EAE6DD;
+  --radius:14px;
+  --type1:#5BA0C4;--type2:#D4956B;--type3:#D9B84A;
+  --type4:#8E4CA8;--type5:#2E86C1;--type6:#219653;
+  --type7:#E08A15;--type8:#C0392B;--type9:#16A085;
 }
-body{font-family:'Pretendard Variable',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
-.container{max-width:680px;margin:0 auto;padding:20px}
-h1{font-size:1.8rem;font-weight:700;letter-spacing:-.02em}
-h2{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
-h3{font-size:1.1rem;font-weight:600}
-.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 32px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border)}
+body{
+  font-family:'Pretendard Variable',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+/* Subtle grain overlay */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:256px;
+}
+.container{max-width:640px;margin:0 auto;padding:24px 20px}
+h1{font-size:2rem;font-weight:800;letter-spacing:-.03em;line-height:1.25}
+h2{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+h3{font-size:1.05rem;font-weight:700}
+
+/* Cards: mixed styles, no uniform shadow */
+.card{background:var(--card);border-radius:var(--radius);padding:28px 24px;margin-bottom:16px;border:1px solid var(--border-light)}
+.card--flat{background:transparent;border:none;padding:28px 0}
+.card--tinted{border:none}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 36px;border:none;border-radius:10px;font-size:.95rem;font-weight:600;
+  cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);font-family:inherit;
+  position:relative;overflow:hidden;
+}
+.btn-primary{
+  background:var(--accent);color:#fff;
+  box-shadow:0 2px 12px rgba(61,90,128,.25);
+}
+.btn-primary:hover{background:var(--accent-light);transform:translateY(-2px);box-shadow:0 6px 20px rgba(61,90,128,.3)}
+.btn-secondary{background:var(--bg-warm);color:var(--text);border:1.5px solid var(--border)}
 .btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
 .btn:active{transform:scale(.97)}
 
-/* HERO */
-.hero{text-align:center;padding:60px 0 30px}
-.hero-icon{font-size:4rem;margin-bottom:16px}
-.hero h1{margin-bottom:12px}
-.hero p{color:var(--sub);font-size:1.05rem;max-width:420px;margin:0 auto 8px}
-.hero .ref{font-size:.8rem;color:#999;margin-top:16px}
-.features{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:28px 0}
-.feature{background:var(--card);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
-.feature-icon{font-size:1.5rem;margin-bottom:6px}
-.feature-label{font-size:.82rem;color:var(--sub);font-weight:500}
+/* ===== HERO ===== */
+.hero{text-align:center;padding:56px 0 24px}
+.hero-visual{
+  position:relative;width:180px;height:180px;margin:0 auto 24px;
+}
+.hero-visual img{
+  width:100%;height:100%;object-fit:cover;border-radius:50%;
+  border:3px solid var(--border-light);
+}
+.hero-visual::after{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1.5px dashed var(--border);
+  animation:slowSpin 40s linear infinite;
+}
+@keyframes slowSpin{to{transform:rotate(360deg)}}
 
-/* PROGRESS */
-.progress-bar{width:100%;height:6px;background:var(--border);border-radius:99px;margin-bottom:20px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .4s ease}
-.q-counter{text-align:center;font-size:.85rem;color:var(--sub);margin-bottom:16px;font-weight:500}
+.hero h1{margin-bottom:8px;color:var(--text)}
+.hero-sub{color:var(--sub);font-size:1rem;max-width:380px;margin:0 auto;line-height:1.75}
 
-/* QUESTION */
-.question-card{animation:fadeIn .35s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.q-text{font-size:1.1rem;font-weight:600;margin-bottom:24px;line-height:1.6}
-.likert{display:flex;flex-direction:column;gap:10px}
-.likert label{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s;font-size:.95rem}
-.likert label:hover{border-color:var(--accent);background:rgba(91,106,191,.04)}
+.hero-meta{
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  margin:28px 0 32px;font-size:.88rem;color:var(--sub);font-weight:500;
+}
+.hero-meta span{display:flex;align-items:center;gap:6px}
+.hero-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--border)}
+
+.hero .ref{font-size:.75rem;color:#A09890;margin-top:20px;line-height:1.6}
+.hero-disclaimer{
+  margin-top:16px;font-size:.72rem;color:#A09890;line-height:1.6;
+  max-width:340px;margin-left:auto;margin-right:auto;
+}
+.hero-credit{margin-top:20px;font-size:.72rem;color:#B0A898}
+.hero-credit strong{color:var(--accent)}
+
+/* ===== PROGRESS (test page) ===== */
+.test-header{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:28px;padding-bottom:20px;
+  border-bottom:1px solid var(--border-light);
+}
+.q-num{
+  font-size:2.4rem;font-weight:800;letter-spacing:-.04em;
+  color:var(--accent);line-height:1;min-width:56px;
+}
+.q-num small{font-size:.7rem;font-weight:500;color:var(--sub);letter-spacing:.05em;display:block;margin-top:2px}
+.progress-track{flex:1}
+.progress-bar{width:100%;height:4px;background:var(--border-light);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.q-counter{font-size:.78rem;color:var(--sub);margin-top:6px;font-weight:500;text-align:right}
+
+/* ===== QUESTION ===== */
+.question-card{animation:fadeUp .4s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.q-text{font-size:1.08rem;font-weight:600;margin-bottom:28px;line-height:1.7;word-break:keep-all}
+.likert{display:flex;flex-direction:column;gap:8px}
+.likert label{
+  display:flex;align-items:center;gap:14px;
+  padding:15px 18px;
+  border:1.5px solid var(--border-light);border-radius:10px;
+  cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);
+  font-size:.92rem;color:var(--text);
+  background:var(--card);
+  user-select:none;
+  position:relative;
+}
+.likert label:hover{border-color:var(--accent);background:var(--accent-faint)}
 .likert input{display:none}
-.likert input:checked+.radio-dot{background:var(--accent);border-color:var(--accent)}
-.likert input:checked+.radio-dot::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.likert label:has(input:checked){border-color:var(--accent);background:rgba(91,106,191,.06)}
-.radio-dot{width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:50%;position:relative;transition:all .2s}
-.likert-label{color:var(--sub);font-size:.85rem}
-.nav-btns{display:flex;gap:12px;margin-top:24px}
+/* Remove radio dot - full card selection */
+.radio-dot{display:none}
+/* Selected state: accent fill */
+.likert label:has(input:checked){
+  border-color:var(--accent);
+  background:var(--accent);
+  color:#fff;
+  transform:scale(1.015);
+  box-shadow:0 2px 12px rgba(61,90,128,.18);
+}
+.likert label:has(input:checked) .likert-label{color:rgba(255,255,255,.7)}
+
+.nav-btns{display:flex;gap:10px;margin-top:28px}
 .nav-btns .btn{flex:1}
 
-/* RESULTS */
-.result-header{text-align:center;padding:16px 0}
-.type-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:99px;font-weight:700;font-size:1.1rem;margin:12px 0}
-.type-num{font-size:1.8rem;font-weight:800}
-.score-chart{margin:20px 0}
-.score-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.score-label{width:90px;font-size:.85rem;font-weight:500;text-align:right;flex-shrink:0}
-.score-bar-bg{flex:1;height:24px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
-.score-bar-fill{height:100%;border-radius:8px;transition:width .8s ease;min-width:2px}
-.score-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.75rem;font-weight:600;color:var(--text)}
+/* ===== RESULTS ===== */
+.result-header{text-align:center;padding:32px 24px;position:relative;overflow:hidden}
+.result-header::before{
+  content:'';position:absolute;inset:0;border-radius:var(--radius);
+  opacity:.06;pointer-events:none;
+}
+.type-num-deco{
+  font-size:8rem;font-weight:900;line-height:1;letter-spacing:-.08em;
+  opacity:.08;position:absolute;top:-10px;right:16px;pointer-events:none;
+}
+.type-image{
+  width:100%;max-width:280px;margin:0 auto 16px;display:block;
+  border-radius:var(--radius);
+}
+.type-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 22px;border-radius:99px;font-weight:700;font-size:1rem;margin:12px 0;
+  letter-spacing:-.01em;
+}
+.type-num{font-size:1.6rem;font-weight:900}
 
-.section-title{font-size:1rem;font-weight:700;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
-.tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.78rem;font-weight:600;margin:2px}
+/* Score chart */
+.score-chart{margin:16px 0}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.score-label{width:85px;font-size:.82rem;font-weight:500;text-align:right;flex-shrink:0;color:var(--sub)}
+.score-bar-bg{flex:1;height:28px;background:var(--bg-warm);border-radius:6px;overflow:hidden;position:relative}
+.score-bar-fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1);min-width:2px;opacity:0;animation:barReveal .5s ease forwards}
+@keyframes barReveal{to{opacity:1}}
+.score-val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:.75rem;font-weight:700;color:var(--text)}
+
+/* Staggered bar animation */
+.score-row:nth-child(1) .score-bar-fill{animation-delay:.1s}
+.score-row:nth-child(2) .score-bar-fill{animation-delay:.2s}
+.score-row:nth-child(3) .score-bar-fill{animation-delay:.3s}
+.score-row:nth-child(4) .score-bar-fill{animation-delay:.4s}
+.score-row:nth-child(5) .score-bar-fill{animation-delay:.5s}
+.score-row:nth-child(6) .score-bar-fill{animation-delay:.6s}
+.score-row:nth-child(7) .score-bar-fill{animation-delay:.7s}
+.score-row:nth-child(8) .score-bar-fill{animation-delay:.8s}
+.score-row:nth-child(9) .score-bar-fill{animation-delay:.9s}
+
+/* Section titles */
+.section-title{
+  font-size:.8rem;font-weight:700;margin:24px 0 14px;padding-bottom:10px;
+  border-bottom:1.5px solid var(--border-light);
+  display:flex;align-items:center;gap:8px;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--sub);
+}
+.section-title .st-icon{font-style:normal;font-size:1rem}
+
+.tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.76rem;font-weight:600;margin:2px}
 .tag-center{background:#EDE7F6;color:#5B6ABF}
-.tag-wing{background:#E8F5E9;color:#27AE60}
+.tag-wing{background:#E8F5E9;color:#219653}
 .tag-growth{background:#E3F2FD;color:#1976D2}
 .tag-stress{background:#FCE4EC;color:#C62828}
 
-.detail-grid{display:grid;gap:12px;margin:12px 0}
-.detail-item{background:var(--bg);border-radius:12px;padding:16px}
-.detail-item h4{font-size:.9rem;font-weight:600;margin-bottom:6px}
-.detail-item p{font-size:.88rem;color:var(--sub);line-height:1.6}
+/* Detail items: mixed treatments */
+.detail-grid{display:grid;gap:10px;margin:12px 0}
+.detail-item{border-radius:10px;padding:16px 18px}
+.detail-item--muted{background:var(--bg-warm)}
+.detail-item--bordered{border:1px solid var(--border-light);background:var(--card)}
+.detail-item h4{font-size:.85rem;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+.detail-item p{font-size:.86rem;color:var(--sub);line-height:1.7}
 .detail-item ul{padding-left:16px;margin-top:6px}
-.detail-item li{font-size:.88rem;color:var(--sub);margin-bottom:4px}
+.detail-item li{font-size:.86rem;color:var(--sub);margin-bottom:4px}
 
-.wing-card{display:flex;gap:12px;margin:8px 0}
-.wing-card>div{flex:1;background:var(--bg);border-radius:12px;padding:14px}
-.wing-card h4{font-size:.85rem;font-weight:600;margin-bottom:4px}
-.wing-card p{font-size:.82rem;color:var(--sub);line-height:1.5}
+.wing-card{display:flex;gap:10px;margin:8px 0}
+.wing-card>div{flex:1;background:var(--bg-warm);border-radius:10px;padding:14px 16px}
+.wing-card h4{font-size:.82rem;font-weight:700;margin-bottom:4px}
+.wing-card p{font-size:.8rem;color:var(--sub);line-height:1.6}
 
-.arrow-diagram{display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0;padding:20px;background:var(--bg);border-radius:12px}
-.arrow-box{text-align:center;padding:12px 16px;border-radius:10px;font-weight:600;font-size:.9rem}
-.arrow-icon{font-size:1.5rem;color:var(--sub)}
+/* Arrow diagram: more visual */
+.arrow-diagram{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  margin:18px 0;padding:0;background:transparent;border-radius:0;
+}
+.arrow-box{
+  text-align:center;padding:16px 18px;border-radius:10px;font-weight:600;font-size:.88rem;
+  flex:1;max-width:160px;
+}
+.arrow-connector{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:0 8px;color:var(--sub);font-size:.68rem;font-weight:600;letter-spacing:.04em;
+}
+.arrow-connector .arr-line{
+  width:40px;height:1.5px;background:var(--border);position:relative;
+}
+.arrow-connector .arr-line::after{
+  content:'';position:absolute;top:-3px;width:0;height:0;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;
+}
+.arrow-connector.arr-left .arr-line::after{left:0;border-right:6px solid var(--border)}
+.arrow-connector.arr-right .arr-line::after{right:0;border-left:6px solid var(--border)}
+.arrow-icon{font-size:1.3rem;color:var(--sub)}
 
-.save-area{text-align:center;margin:24px 0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+/* All types compact */
+.types-grid{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.type-mini{border-radius:10px;padding:0;border:1px solid var(--border-light);background:var(--card);overflow:hidden;transition:border-color .2s ease}
+.type-mini.is-me{border-width:2px}
+.type-mini-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none;transition:background .15s ease}
+.type-mini-header:hover{background:rgba(0,0,0,.02)}
+.type-mini-header h4{font-size:.85rem;font-weight:700;margin:0;flex:1}
+.type-mini-header .mini-motive{font-size:.75rem;color:var(--sub);flex:2;line-height:1.3}
+.type-mini-header .mini-arrows{font-size:.62rem;display:flex;gap:4px;flex-shrink:0}
+.type-mini-header .mini-chevron{font-size:.7rem;color:var(--sub);transition:transform .25s ease;flex-shrink:0;margin-left:4px}
+.type-mini.is-open .mini-chevron{transform:rotate(180deg)}
+.type-mini-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.type-mini.is-open .type-mini-body{max-height:800px}
+.type-mini-content{padding:0 14px 14px;border-top:1px solid var(--border-light)}
+.type-mini-content .tmc-section{margin-top:12px}
+.type-mini-content .tmc-section h5{font-size:.78rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.type-mini-content .tmc-section p{font-size:.78rem;color:var(--sub);line-height:1.6;margin:0}
+.type-mini-content .tmc-section ul{padding-left:16px;margin:4px 0 0}
+.type-mini-content .tmc-section li{font-size:.78rem;color:var(--sub);margin-bottom:2px}
+.type-mini-content .tmc-animals{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.type-mini-content .tmc-animal{padding:10px;border-radius:8px;font-size:.75rem;line-height:1.5}
+.type-mini-content .tmc-animal b{display:block;margin-bottom:2px}
+.type-mini-content .tmc-tips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.type-mini-content .tmc-tip{font-size:.72rem;padding:5px 10px;border-radius:6px;background:var(--bg);color:var(--sub);line-height:1.4}
 
-.ref-section{background:var(--bg);border-radius:12px;padding:16px;margin-top:16px}
-.ref-section h4{font-size:.85rem;font-weight:600;margin-bottom:8px}
-.ref-section p{font-size:.78rem;color:var(--sub);line-height:1.5;margin-bottom:4px}
+.save-area{text-align:center;margin:28px 0 8px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+.ref-section{background:var(--bg-warm);border-radius:10px;padding:16px 18px;margin-top:14px}
+.ref-section h4{font-size:.82rem;font-weight:700;margin-bottom:8px}
+.ref-section p{font-size:.74rem;color:var(--sub);line-height:1.6;margin-bottom:3px}
+
+/* Story timeline */
+.story-section{position:relative}
+.story-timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:20px}
+.story-timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:1.5px;background:var(--border)}
+.story-node{position:relative;padding:0 0 20px}
+.story-node:last-child{padding-bottom:0}
+.story-node::before{content:'';position:absolute;left:-19px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--accent);border:2px solid var(--card);z-index:1}
+.story-era{display:inline-block;font-size:.7rem;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;background:var(--accent-faint);padding:2px 8px;border-radius:4px}
+.story-node p{font-size:.86rem;color:var(--sub);line-height:1.75;margin:0}
+.story-node b{color:var(--text);font-weight:600}
 
 .hidden{display:none!important}
 
-/* IMAGE AREA */
-.type-image{width:100%;max-width:320px;margin:16px auto;display:block;border-radius:16px;box-shadow:var(--shadow)}
+/* Page transitions */
+section{animation:pageIn .5s cubic-bezier(.4,0,.2,1)}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
 
 /* RESPONSIVE */
 @media(max-width:500px){
-  .container{padding:12px}
-  .card{padding:20px}
-  h1{font-size:1.5rem}
-  .features{grid-template-columns:1fr}
+  .container{padding:16px 14px}
+  .card{padding:22px 18px}
+  h1{font-size:1.6rem}
+  .hero{padding:36px 0 16px}
+  .hero-visual{width:140px;height:140px}
+  .hero-meta{gap:16px;font-size:.82rem}
+  .q-num{font-size:2rem}
+  .type-num-deco{font-size:5rem}
   .wing-card{flex-direction:column}
-  .hero{padding:40px 0 20px}
-  .arrow-diagram{flex-direction:column;gap:8px}
+  .arrow-diagram{flex-direction:column;gap:6px}
+  .arrow-connector{transform:rotate(90deg);padding:4px 0}
+  .types-grid{flex-direction:column}
+  .type-mini-content .tmc-animals{grid-template-columns:1fr}
+  .nav-btns{flex-direction:column}
 }
 
 /* PRINT */
 @media print{
   body{background:#fff}
+  body::before{display:none}
   .btn,.save-area,.nav-btns{display:none!important}
-  .card{box-shadow:none;border:1px solid #ddd}
+  .card{border:1px solid #ddd}
 }
 </style>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -133,27 +315,63 @@ h3{font-size:1.1rem;font-weight:600}
 <!-- ============ HERO ============ -->
 <section id="page-hero">
 <div class="hero">
-  <img src="images/hero-teacher.png" alt="교사 에니어그램" style="width:200px;height:200px;border-radius:50%;object-fit:cover;box-shadow:0 4px 24px rgba(91,106,191,.18);margin-bottom:8px">
+  <div class="hero-visual">
+    <img src="images/hero-teacher.png" alt="교사 에니어그램">
+  </div>
   <h1>교사 에니어그램 테스트</h1>
-  <p>나의 교수 스타일과 성격 유형을 발견하고,<br>더 나은 교육자로 성장하는 첫걸음</p>
-  <div class="features">
-    <div class="feature"><div class="feature-icon">&#128218;</div><div class="feature-label">27문항<br>약 5분</div></div>
-    <div class="feature"><div class="feature-icon">&#128300;</div><div class="feature-label">9유형<br>상세 분석</div></div>
-    <div class="feature"><div class="feature-icon">&#127891;</div><div class="feature-label">교사 맞춤<br>해석</div></div>
+  <p class="hero-sub">나의 교수 스타일과 성격 유형을 발견하고,<br>더 나은 교육자로 성장하는 첫걸음</p>
+  <div class="hero-meta">
+    <span>27문항</span>
+    <span class="dot"></span>
+    <span>약 5분</span>
+    <span class="dot"></span>
+    <span>9유형 분석</span>
   </div>
-  <button class="btn btn-primary" onclick="startTest()">테스트 시작하기</button>
+  <button class="btn btn-primary" onclick="startTest()" style="padding:16px 48px;font-size:1rem">테스트 시작하기</button>
+</div>
+
+<!-- 에니어그램 역사 스토리텔링 -->
+<div class="card story-section" style="text-align:left;margin-top:8px">
+  <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px;letter-spacing:-.02em;line-height:1.4">에니어그램은 어디서 왔을까?</h3>
+
+  <div class="story-timeline">
+    <div class="story-node">
+      <span class="story-era">고대</span>
+      <p>에니어그램의 뿌리는 깊습니다. 그 상징인 아홉 꼭짓점의 원은 고대 수피 전통과 사막 교부들의 영성 수련에서 흔적을 찾을 수 있습니다. 기원후 4세기, 수도사 에바그리우스 폰티쿠스는 인간의 여덟 가지 근본 유혹을 분류했는데 — 이것이 훗날 에니어그램 아홉 유형의 씨앗이 됩니다.</p>
+    </div>
+    <div class="story-node">
+      <span class="story-era">1900년대 초</span>
+      <p>1915년, 신비주의 철학자 <b>게오르기 구르지예프</b>가 에니어그램 도형을 서양에 처음 소개합니다. 그는 이 아홉 개의 점이 우주의 법칙과 인간 변화의 과정을 담고 있다고 가르쳤습니다. 아직 성격 유형론은 아니었지만, 자기 관찰의 도구로서 첫 발을 뗀 순간이었습니다.</p>
+    </div>
+    <div class="story-node">
+      <span class="story-era">1960~70년대</span>
+      <p>볼리비아의 철학자 <b>오스카 이차소</b>가 에니어그램 도형에 아홉 가지 성격 유형을 연결합니다. 그의 제자 <b>클라우디오 나란호</b>(정신과 의사)가 이를 현대 심리학의 언어로 체계화하며, 미국 캘리포니아에서 소규모 스터디 그룹을 통해 퍼져나갑니다.</p>
+    </div>
+    <div class="story-node">
+      <span class="story-era">1990년대~현재</span>
+      <p><b>돈 리소</b>와 <b>러스 허드슨</b>이 각 유형의 건강 수준(Levels of Development)을 정립하고, 표준화된 검사 도구 RHETI를 개발합니다. 에니어그램은 상담·코칭·리더십·교육 현장으로 확산되며, 오늘날 전 세계 수백만 명이 자기 이해의 나침반으로 활용하고 있습니다.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:16px;font-size:.84rem;color:var(--sub);line-height:1.7">이 테스트는 에니어그램의 오랜 지혜를 <b>교사</b>의 맥락에 맞게 재해석한 것입니다. 27개의 질문을 통해 당신의 교수 스타일, 강점, 그리고 성장 방향을 발견해 보세요.</p>
+</div>
+
+<div style="text-align:center;margin-top:4px">
   <div class="ref">Riso-Hudson Enneagram Type Indicator(RHETI),<br>The Enneagram Institute 연구 기반</div>
-  <div style="margin-top:16px;padding:10px 16px;background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;font-size:.78rem;color:#E65100;line-height:1.6;max-width:380px;margin-left:auto;margin-right:auto">
-    ⚠️ 본 테스트는 <strong>전문 심리검사가 아니며</strong>, 재미와 자기성찰 목적으로 제작되었습니다. 정확한 유형 판별을 위해서는 공인 전문가의 해석이 필요합니다.
-  </div>
-  <div style="margin-top:18px;font-size:.75rem;color:#9E9E9E">만든이: <strong style="color:#7986CB">pbl.junil</strong></div>
+  <p class="hero-disclaimer">본 테스트는 전문 심리검사가 아니며, 재미와 자기성찰 목적으로 제작되었습니다. 정확한 유형 판별을 위해서는 공인 전문가의 해석이 필요합니다.</p>
+  <div class="hero-credit">만든이: <strong>pbl.junil</strong></div>
 </div>
 </section>
 
 <!-- ============ TEST ============ -->
 <section id="page-test" class="hidden">
-<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-<div class="q-counter" id="qCounter"></div>
+<div class="test-header">
+  <div class="q-num" id="qNumBig">01<small>of 27</small></div>
+  <div class="progress-track">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="q-counter" id="qCounter"></div>
+  </div>
+</div>
 <div class="card">
   <div id="questionArea"></div>
   <div class="nav-btns">
@@ -176,8 +394,8 @@ h3{font-size:1.1rem;font-weight:600}
 // ==========================================
 
 const TYPE_COLORS = {
-  1:'#6EC1E4',2:'#E8A87C',3:'#F6D55C',4:'#9B59B6',5:'#3498DB',
-  6:'#27AE60',7:'#F39C12',8:'#E74C3C',9:'#1ABC9C'
+  1:'#5BA0C4',2:'#D4956B',3:'#D9B84A',4:'#8E4CA8',5:'#2E86C1',
+  6:'#219653',7:'#E08A15',8:'#C0392B',9:'#16A085'
 };
 
 const TYPE_NAMES = {
@@ -398,8 +616,11 @@ function renderQuestion(){
   const pct = ((currentQ)/QUESTIONS.length*100).toFixed(0);
   document.getElementById('progress').style.width = pct+'%';
   document.getElementById('qCounter').textContent = `${currentQ+1} / ${QUESTIONS.length}`;
+  // Update big number
+  const numEl = document.getElementById('qNumBig');
+  if(numEl) numEl.innerHTML = String(currentQ+1).padStart(2,'0') + `<small>of ${QUESTIONS.length}</small>`;
 
-  let html = `<p class="q-text">${q.text}</p><div class="likert">`;
+  let html = `<div class="question-card"><p class="q-text">${q.text}</p><div class="likert">`;
   LIKERT_OPTIONS.forEach(opt=>{
     const checked = answers[currentQ]===opt.val?'checked':'';
     html += `<label>
@@ -408,7 +629,7 @@ function renderQuestion(){
       <span>${opt.label}</span>
     </label>`;
   });
-  html += '</div>';
+  html += '</div></div>';
   document.getElementById('questionArea').innerHTML = html;
 
   document.getElementById('btnPrev').style.visibility = currentQ===0?'hidden':'visible';
@@ -484,6 +705,11 @@ function getCenterForType(t){
   return 'head';
 }
 
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
 function showResult(){
   const scores = calcScores();
   const mainType = getTopType(scores);
@@ -494,25 +720,28 @@ function showResult(){
   const arrows = ARROWS[mainType];
   const data = TYPE_DATA[mainType];
   const wingData = WINGS[wingKey];
+  const tc = TYPE_COLORS[mainType];
+  const tcRgb = hexToRgb(tc);
 
   // Sort types by score
   const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
 
   let html = '';
 
-  // Header
-  html += `<div class="card result-header">
-    <h2>당신의 교사 유형</h2>
+  // Header — bold type badge
+  html += `<div class="card result-header" style="background:rgba(${tcRgb},.04);border-color:rgba(${tcRgb},.12)">
+    <span class="type-num-deco" style="color:${tc}">${mainType}</span>
+    <h2 style="font-size:1.1rem;font-weight:600;color:var(--sub);margin-bottom:12px">당신의 교사 유형</h2>
     <img src="images/type${mainType}.png" alt="${TYPE_NAMES[mainType]} 교사" class="type-image">
-    <div class="type-badge" style="background:${TYPE_COLORS[mainType]}22;color:${TYPE_COLORS[mainType]}">
+    <div class="type-badge" style="background:${tc};color:#fff">
       <span class="type-num">${mainType}</span>
-      <span>${TYPE_NAMES[mainType]} (The ${TYPE_ENG[mainType]})</span>
+      <span>${TYPE_NAMES[mainType]} &middot; The ${TYPE_ENG[mainType]}</span>
     </div>
-    <p style="color:var(--sub);font-size:.95rem;margin-top:8px">${data.core_motive}</p>
+    <p style="color:var(--sub);font-size:.92rem;margin-top:8px;font-weight:500">${data.core_motive}</p>
   </div>`;
 
   // Score chart
-  html += `<div class="card"><h3 class="section-title">&#128202; 유형별 점수</h3><div class="score-chart">`;
+  html += `<div class="card"><h3 class="section-title"><em class="st-icon">&#128202;</em> 유형별 점수</h3><div class="score-chart">`;
   sorted.forEach(([t,s])=>{
     const isMain = parseInt(t)===mainType;
     html += `<div class="score-row">
@@ -520,47 +749,47 @@ function showResult(){
         ${t}. ${TYPE_NAMES[t]}
       </span>
       <div class="score-bar-bg">
-        <div class="score-bar-fill" style="width:${s}%;background:${TYPE_COLORS[t]}${isMain?'':'88'}"></div>
+        <div class="score-bar-fill" style="width:0%;background:${TYPE_COLORS[t]}${isMain?'':'99'}"></div>
         <span class="score-val">${s}%</span>
       </div>
     </div>`;
   });
   html += '</div></div>';
 
-  // Center / Triad
-  html += `<div class="card">
-    <h3 class="section-title">&#129504; 센터 (트라이어드)</h3>
+  // Center / Triad — tinted card
+  html += `<div class="card card--tinted" style="background:rgba(${tcRgb},.035);border:1px solid rgba(${tcRgb},.1)">
+    <h3 class="section-title"><em class="st-icon">&#129504;</em> 센터</h3>
     <span class="tag tag-center">${centerData.name}</span>
     <span class="tag" style="background:#FFF3E0;color:#E65100">핵심 감정: ${centerData.emotion}</span>
-    <p style="margin-top:12px;font-size:.9rem;color:var(--sub);line-height:1.7">${centerData.desc}</p>
+    <p style="margin-top:12px;font-size:.88rem;color:var(--sub);line-height:1.7">${centerData.desc}</p>
   </div>`;
 
-  // Main Type Detail
+  // Main Type Detail — alternating detail-item styles
   html += `<div class="card">
-    <h3 class="section-title">&#127793; ${mainType}번 유형: ${TYPE_NAMES[mainType]} 교사</h3>
+    <h3 class="section-title"><em class="st-icon">&#127793;</em> ${mainType}번 유형: ${TYPE_NAMES[mainType]} 교사</h3>
     <div class="detail-grid">
-      <div class="detail-item">
-        <h4>&#128155; 핵심 동기</h4>
+      <div class="detail-item detail-item--muted">
+        <h4>핵심 동기</h4>
         <p>${data.core_motive}</p>
       </div>
-      <div class="detail-item">
-        <h4>&#128560; 핵심 두려움</h4>
+      <div class="detail-item detail-item--bordered">
+        <h4>핵심 두려움</h4>
         <p>${data.core_fear}</p>
       </div>
-      <div class="detail-item">
-        <h4>&#127919; 교사로서의 특징</h4>
+      <div class="detail-item detail-item--muted">
+        <h4>교사로서의 특징</h4>
         <p>${data.teacher_style}</p>
       </div>
-      <div class="detail-item">
-        <h4>&#127775; 건강한 모습</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid ${tc}">
+        <h4>건강한 모습</h4>
         <p>${data.healthy}</p>
       </div>
-      <div class="detail-item">
-        <h4>&#9888;&#65039; 주의할 모습</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #C0392B">
+        <h4>주의할 모습</h4>
         <p>${data.unhealthy}</p>
       </div>
-      <div class="detail-item">
-        <h4>&#128170; 교사로서의 강점</h4>
+      <div class="detail-item detail-item--muted">
+        <h4>교사로서의 강점</h4>
         <ul>${data.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
       </div>
     </div>
@@ -569,15 +798,15 @@ function showResult(){
   // 상징 동물
   const animal = TYPE_ANIMALS[mainType];
   html += `<div class="card">
-    <h3 class="section-title">&#128062; 상징 동물</h3>
-    <p style="font-size:.82rem;color:var(--sub);margin-bottom:14px">출처: Richard Rohr &amp; Andreas Ebert, <em>The Enneagram: A Christian Perspective</em> (2001)</p>
+    <h3 class="section-title"><em class="st-icon">&#128062;</em> 상징 동물</h3>
+    <p style="font-size:.78rem;color:var(--sub);margin-bottom:14px">출처: Richard Rohr &amp; Andreas Ebert, <em>The Enneagram: A Christian Perspective</em> (2001)</p>
     <div class="detail-grid">
-      <div class="detail-item" style="border-left:3px solid ${TYPE_COLORS[mainType]}">
-        <h4>&#127775; 건강할 때 — ${animal.healthy}</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid ${tc}">
+        <h4>건강할 때 &mdash; ${animal.healthy}</h4>
         <p>${animal.healthyDesc}</p>
       </div>
-      <div class="detail-item" style="border-left:3px solid #E57373">
-        <h4>&#9888;&#65039; 주의할 때 — ${animal.unhealthy}</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #C0392B">
+        <h4>주의할 때 &mdash; ${animal.unhealthy}</h4>
         <p>${animal.unhealthyDesc}</p>
       </div>
     </div>
@@ -585,8 +814,8 @@ function showResult(){
 
   // Wing
   html += `<div class="card">
-    <h3 class="section-title">&#129657; 날개 (Wing)</h3>
-    <p style="font-size:.88rem;color:var(--sub);margin-bottom:12px">날개는 주유형에 영향을 주는 인접 유형으로, 당신의 성격에 독특한 색채를 더합니다.</p>
+    <h3 class="section-title"><em class="st-icon">&#129657;</em> 날개 (Wing)</h3>
+    <p style="font-size:.86rem;color:var(--sub);margin-bottom:12px">날개는 주유형에 영향을 주는 인접 유형으로, 당신의 성격에 독특한 색채를 더합니다.</p>
     <span class="tag tag-wing">${wingData.name}</span>
     <div class="wing-card">
       <div>
@@ -598,73 +827,116 @@ function showResult(){
         <p>${WINGS[`${mainType}w${mainType===9?1:mainType+1}`].desc}</p>
       </div>
     </div>
-    <p style="margin-top:12px;font-size:.88rem"><b>당신의 날개:</b> ${wingData.desc}</p>
+    <p style="margin-top:12px;font-size:.86rem"><b>당신의 날개:</b> ${wingData.desc}</p>
   </div>`;
 
-  // Integration / Disintegration
+  // Integration / Disintegration — more visual arrows
   html += `<div class="card">
-    <h3 class="section-title">&#128260; 성장과 스트레스 방향</h3>
-    <p style="font-size:.88rem;color:var(--sub);margin-bottom:12px">
+    <h3 class="section-title"><em class="st-icon">&#128260;</em> 성장과 스트레스 방향</h3>
+    <p style="font-size:.86rem;color:var(--sub);margin-bottom:16px">
       에니어그램의 화살표는 각 유형이 성장(통합)과 스트레스(분열) 시 어떤 유형의 특성을 보이는지를 나타냅니다.
-      <br><small>(Riso & Hudson, <i>The Wisdom of the Enneagram</i>, 2000)</small>
     </p>
     <div class="arrow-diagram">
       <div class="arrow-box" style="background:#E3F2FD;color:#1565C0">
-        <small>성장 방향</small><br>
+        <small style="font-size:.7rem;opacity:.7;text-transform:uppercase;letter-spacing:.04em">성장</small><br>
         <b>${arrows.growth}번 ${TYPE_NAMES[arrows.growth]}</b>
       </div>
-      <div class="arrow-icon">&#8592;</div>
-      <div class="arrow-box" style="background:${TYPE_COLORS[mainType]}22;color:${TYPE_COLORS[mainType]}">
-        <small>나의 유형</small><br>
-        <b>${mainType}번 ${TYPE_NAMES[mainType]}</b>
+      <div class="arrow-connector arr-left"><span class="arr-line"></span></div>
+      <div class="arrow-box" style="background:${tc};color:#fff;font-size:.95rem">
+        <small style="font-size:.7rem;opacity:.7;text-transform:uppercase;letter-spacing:.04em">나</small><br>
+        <b>${mainType}번</b>
       </div>
-      <div class="arrow-icon">&#8594;</div>
+      <div class="arrow-connector arr-right"><span class="arr-line"></span></div>
       <div class="arrow-box" style="background:#FCE4EC;color:#C62828">
-        <small>스트레스 방향</small><br>
+        <small style="font-size:.7rem;opacity:.7;text-transform:uppercase;letter-spacing:.04em">스트레스</small><br>
         <b>${arrows.stress}번 ${TYPE_NAMES[arrows.stress]}</b>
       </div>
     </div>
     <div class="detail-grid" style="grid-template-columns:1fr 1fr">
-      <div class="detail-item" style="border-left:3px solid #1976D2">
-        <h4>&#127793; 성장 시 (&#8594; ${arrows.growth}번)</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #1976D2">
+        <h4>성장 시 (${arrows.growth}번)</h4>
         <p>건강하게 성장할 때 ${arrows.growth}번 ${TYPE_NAMES[arrows.growth]} 유형의 긍정적 특성이 나타납니다. ${TYPE_DATA[arrows.growth].healthy.split('.')[0]}.</p>
       </div>
-      <div class="detail-item" style="border-left:3px solid #C62828">
-        <h4>&#9888;&#65039; 스트레스 시 (&#8594; ${arrows.stress}번)</h4>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #C62828">
+        <h4>스트레스 시 (${arrows.stress}번)</h4>
         <p>스트레스를 받을 때 ${arrows.stress}번 ${TYPE_NAMES[arrows.stress]} 유형의 부정적 특성이 나타날 수 있습니다. ${TYPE_DATA[arrows.stress].unhealthy.split('.')[0]}.</p>
       </div>
     </div>
+    <p style="font-size:.72rem;color:#A09890;margin-top:10px;text-align:center"><em>Riso & Hudson, The Wisdom of the Enneagram (2000)</em></p>
   </div>`;
 
   // Growth tips
-  html += `<div class="card">
-    <h3 class="section-title">&#127807; 교사로서의 성장 팁</h3>
+  html += `<div class="card card--tinted" style="background:rgba(${tcRgb},.035);border:1px solid rgba(${tcRgb},.1)">
+    <h3 class="section-title"><em class="st-icon">&#127807;</em> 교사로서의 성장 팁</h3>
     <div class="detail-grid">
-      ${data.growth_tips.map(tip=>`<div class="detail-item"><p>${tip}</p></div>`).join('')}
+      ${data.growth_tips.map((tip,i)=>`<div class="detail-item ${i%2===0?'detail-item--muted':'detail-item--bordered'}"><p>${tip}</p></div>`).join('')}
     </div>
   </div>`;
 
-  // All 9 types overview
+  // All 9 types — accordion
   html += `<div class="card">
-    <h3 class="section-title">&#128214; 9가지 유형 한눈에 보기</h3>
-    <div class="detail-grid">`;
+    <h3 class="section-title"><em class="st-icon">&#128214;</em> 9가지 유형 살펴보기</h3>
+    <p style="font-size:.78rem;color:var(--sub);margin-bottom:10px">각 유형을 눌러 상세 정보를 확인하세요</p>
+    <div class="types-grid">`;
   for(let t=1;t<=9;t++){
     const isMe = t===mainType;
-    html += `<div class="detail-item" style="${isMe?'border:2px solid '+TYPE_COLORS[t]+';background:'+TYPE_COLORS[t]+'08':''}">
-      <h4 style="color:${TYPE_COLORS[t]}">${t}. ${TYPE_NAMES[t]} (${TYPE_ENG[t]}) ${isMe?'&#11088; 나의 유형':''}</h4>
-      <p><b>동기:</b> ${TYPE_DATA[t].core_motive}</p>
-      <p><b>교사 스타일:</b> ${TYPE_DATA[t].teacher_style.substring(0,60)}...</p>
-      <p style="font-size:.8rem;margin-top:4px">
-        <span class="tag tag-growth">성장&#8594;${ARROWS[t].growth}번</span>
-        <span class="tag tag-stress">스트레스&#8594;${ARROWS[t].stress}번</span>
-      </p>
+    const td = TYPE_DATA[t];
+    const ta = TYPE_ANIMALS[t];
+    const tColor = TYPE_COLORS[t];
+    const tRgb = hexToRgb(tColor);
+    html += `<div class="type-mini${isMe?' is-me':''}" style="${isMe?'border-color:'+tColor+';background:rgba('+tRgb+',.04)':''}" data-type="${t}">
+      <div class="type-mini-header" onclick="toggleTypeDetail(this)">
+        <h4 style="color:${tColor}">${t}. ${TYPE_NAMES[t]}${isMe?' ★':''}</h4>
+        <span class="mini-motive">${td.core_motive}</span>
+        <div class="mini-arrows">
+          <span class="tag tag-growth" style="padding:2px 6px;font-size:.6rem">↑${ARROWS[t].growth}</span>
+          <span class="tag tag-stress" style="padding:2px 6px;font-size:.6rem">↓${ARROWS[t].stress}</span>
+        </div>
+        <span class="mini-chevron">▼</span>
+      </div>
+      <div class="type-mini-body">
+        <div class="type-mini-content">
+          <div class="tmc-section">
+            <h5 style="color:${tColor}">교사 스타일</h5>
+            <p>${td.teacher_style}</p>
+          </div>
+          <div class="tmc-section">
+            <h5>강점</h5>
+            <ul>${td.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+          </div>
+          <div class="tmc-section">
+            <h5>건강한 모습 / 주의할 모습</h5>
+            <p><b style="color:${tColor}">건강:</b> ${td.healthy}</p>
+            <p style="margin-top:4px"><b style="color:#C0392B">주의:</b> ${td.unhealthy}</p>
+          </div>
+          <div class="tmc-section">
+            <h5>상징 동물</h5>
+            <div class="tmc-animals">
+              <div class="tmc-animal" style="background:rgba(${tRgb},.06)">
+                <b>${ta.healthy}</b>
+                ${ta.healthyDesc}
+              </div>
+              <div class="tmc-animal" style="background:rgba(192,57,43,.05)">
+                <b>${ta.unhealthy}</b>
+                ${ta.unhealthyDesc}
+              </div>
+            </div>
+          </div>
+          <div class="tmc-section">
+            <h5>성장 팁</h5>
+            <div class="tmc-tips">
+              ${td.growth_tips.map(tip=>`<span class="tmc-tip">${tip}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>`;
   }
   html += '</div></div>';
 
   // References
   html += `<div class="card">
-    <h3 class="section-title">&#128218; 참고 문헌</h3>
+    <h3 class="section-title"><em class="st-icon">&#128218;</em> 참고 문헌</h3>
     <div class="ref-section">
       <p>Riso, D. R., & Hudson, R. (2000). <i>The Wisdom of the Enneagram</i>. Bantam Books.</p>
       <p>Riso, D. R., & Hudson, R. (1999). <i>Personality Types: Using the Enneagram for Self-Discovery</i>. Houghton Mifflin.</p>
@@ -675,7 +947,7 @@ function showResult(){
       <p>Roh, H., et al. Understanding medical students' empathy based on Enneagram personality types. <i>Korean Journal of Medical Education</i>.</p>
       <p>Hur, Y., & Lee, K. (2011). Analysis of students' enneagram personality types, stress, and developmental level. <i>Korean Journal of Medical Education</i>.</p>
     </div>
-    <p style="font-size:.78rem;color:#999;margin-top:12px;text-align:center">
+    <p style="font-size:.72rem;color:#A09890;margin-top:12px;text-align:center">
       본 테스트는 Riso-Hudson Enneagram Type Indicator(RHETI) 및 공인 학술 자료를 참고하여 교사 맥락에 맞게 재구성한 것입니다.<br>
       정확한 에니어그램 유형 확인을 위해서는 공인 전문가의 상담을 권장합니다.
     </p>
@@ -684,24 +956,25 @@ function showResult(){
   // Save area
   html += `<div class="save-area">
     <button class="btn btn-primary" onclick="saveAsImage()">&#128247; 이미지로 저장</button>
-    <button class="btn btn-secondary" onclick="window.print()">&#128424; 인쇄 / PDF 저장</button>
+    <button class="btn btn-secondary" onclick="window.print()">&#128424; 인쇄 / PDF</button>
     <button class="btn btn-secondary" onclick="copyResult()">&#128203; 텍스트 복사</button>
     <button class="btn btn-secondary" onclick="startTest()">&#128260; 다시 테스트</button>
   </div>`;
 
-  html += `<div style="margin-top:20px;padding:12px 16px;background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;font-size:.78rem;color:#E65100;line-height:1.6;text-align:center">
-    ⚠️ 본 테스트는 <strong>전문 심리검사가 아니며</strong>, 재미와 자기성찰 목적으로 제작되었습니다.<br>정확한 유형 판별을 위해서는 공인 전문가의 해석이 필요합니다.
-  </div>`;
+  html += `<p style="margin-top:16px;font-size:.7rem;color:#B0A898;line-height:1.6;text-align:center">
+    본 테스트는 전문 심리검사가 아니며, 재미와 자기성찰 목적으로 제작되었습니다.
+  </p>`;
 
   document.getElementById('resultContent').innerHTML = html;
   show('page-result');
 
-  // Animate bars
+  // Animate bars with stagger
   setTimeout(()=>{
-    document.querySelectorAll('.score-bar-fill').forEach(bar=>{
-      bar.style.width = bar.style.width;
+    document.querySelectorAll('.score-bar-fill').forEach((bar,i)=>{
+      const w = sorted[i][1];
+      setTimeout(()=>{ bar.style.width = w+'%'; }, i*80);
     });
-  },100);
+  },200);
 }
 
 function saveAsImage(){
@@ -709,7 +982,7 @@ function saveAsImage(){
   // Use html2canvas if available, otherwise fallback
   if(typeof html2canvas !== 'undefined'){
     html2canvas(el,{
-      backgroundColor:'#faf9f7',
+      backgroundColor:'#F7F5F0',
       scale:2,
       useCORS:true,
       logging:false
@@ -725,6 +998,25 @@ function saveAsImage(){
     script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
     script.onload = ()=>saveAsImage();
     document.head.appendChild(script);
+  }
+}
+
+function toggleTypeDetail(headerEl){
+  const mini = headerEl.closest('.type-mini');
+  const wasOpen = mini.classList.contains('is-open');
+  // close all others
+  document.querySelectorAll('.type-mini.is-open').forEach(el=>{
+    if(el!==mini) el.classList.remove('is-open');
+  });
+  // toggle this one
+  if(wasOpen){
+    mini.classList.remove('is-open');
+  } else {
+    mini.classList.add('is-open');
+    // scroll into view after animation
+    setTimeout(()=>{
+      mini.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },100);
   }
 }
 
