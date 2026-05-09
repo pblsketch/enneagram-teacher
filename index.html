@@ -873,6 +873,190 @@ function showResult(){
     </div>
   </div>`;
 
+  // ===== 에니어그램 깊이 이해하기 =====
+  html += `<div class="card" style="border:1.5px solid var(--border);margin-top:8px">
+    <h3 style="font-size:1.15rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;line-height:1.4">에니어그램, 더 깊이 이해하기</h3>
+    <p style="font-size:.84rem;color:var(--sub);margin-bottom:20px;line-height:1.7">테스트 결과를 넘어, 에니어그램의 핵심 개념들을 알면 자신과 동료 교사를 훨씬 입체적으로 이해할 수 있습니다.</p>
+  </div>`;
+
+  // 세 가지 센터 깊이
+  html += `<div class="card">
+    <h3 class="section-title"><em class="st-icon">&#129504;</em> 세 가지 센터 깊이 들여다보기</h3>
+    <p style="font-size:.86rem;color:var(--sub);line-height:1.75;margin-bottom:16px">
+      에니어그램은 9개의 유형을 <b>세 가지 지능 센터</b>로 묶습니다. 각 센터는 고유한 핵심 감정과 반응 패턴을 가지며, 교사로서 수업과 관계에서 다르게 드러납니다.
+    </p>
+    <div class="detail-grid" style="gap:12px">
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #E65100">
+        <h4>🔥 본능(장) 센터 — 8, 9, 1번</h4>
+        <p style="margin-bottom:6px"><b>핵심 감정:</b> 분노</p>
+        <p>이 센터의 교사들은 <b>신체적 직관과 본능</b>으로 세상을 먼저 감지합니다. 교실의 공기가 달라지면 몸이 먼저 반응하죠.</p>
+        <ul>
+          <li><b>8번</b>은 분노를 밖으로 표출합니다 — 불공정한 상황에 즉각 반응하고 학생을 보호합니다</li>
+          <li><b>9번</b>은 분노를 잊습니다 — 갈등을 피하고 평화를 유지하려 하지만, 쌓인 분노가 수동적 저항으로 나타날 수 있습니다</li>
+          <li><b>1번</b>은 분노를 억누릅니다 — "올바르지 않은 것"에 내면이 끓지만, 이를 비판과 개선 욕구로 전환합니다</li>
+        </ul>
+        <p style="margin-top:8px;font-size:.82rem;color:var(--accent)"><b>교사 팁:</b> 이 센터에 속한다면, 분노 감정을 알아차리고 건강하게 표현하는 연습이 성장의 열쇠입니다.</p>
+      </div>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #C62828">
+        <h4>감정(가슴) 센터 — 2, 3, 4번</h4>
+        <p style="margin-bottom:6px"><b>핵심 감정:</b> 수치심</p>
+        <p>이 센터의 교사들은 <b>자아 이미지와 관계</b>를 통해 세상을 경험합니다. "나는 어떤 교사인가?"라는 질문이 늘 따라다닙니다.</p>
+        <ul>
+          <li><b>2번</b>은 타인을 통해 정체성을 찾습니다 — 학생들에게 필요한 존재가 됨으로써 가치를 확인합니다</li>
+          <li><b>3번</b>은 성과를 통해 정체성을 만듭니다 — 유능한 교사라는 이미지를 유지하려 노력합니다</li>
+          <li><b>4번</b>은 독특함으로 정체성을 지킵니다 — 평범한 교사가 되는 것을 두려워하며 진정성을 추구합니다</li>
+        </ul>
+        <p style="margin-top:8px;font-size:.82rem;color:var(--accent)"><b>교사 팁:</b> 이 센터에 속한다면, 역할이나 성과와 무관하게 자신의 존재 자체가 가치 있음을 기억하세요.</p>
+      </div>
+      <div class="detail-item detail-item--bordered" style="border-left:3px solid #1565C0">
+        <h4>사고(머리) 센터 — 5, 6, 7번</h4>
+        <p style="margin-bottom:6px"><b>핵심 감정:</b> 불안/두려움</p>
+        <p>이 센터의 교사들은 <b>분석과 계획</b>으로 세상을 이해하려 합니다. 안전감을 확보하기 위해 머리를 먼저 씁니다.</p>
+        <ul>
+          <li><b>5번</b>은 지식 축적으로 두려움에 대응합니다 — 충분히 알아야 교실에 설 수 있다고 느낍니다</li>
+          <li><b>6번</b>은 최악의 시나리오를 준비합니다 — 교실에서 일어날 수 있는 모든 문제를 미리 대비합니다</li>
+          <li><b>7번</b>은 즐거움으로 두려움을 피합니다 — 새로운 활동과 아이디어로 불안을 차단합니다</li>
+        </ul>
+        <p style="margin-top:8px;font-size:.82rem;color:var(--accent)"><b>교사 팁:</b> 이 센터에 속한다면, 머리에서 몸과 마음으로 내려오는 연습이 필요합니다. 신체 활동이나 감정 일기가 도움됩니다.</p>
+      </div>
+    </div>
+  </div>`;
+
+  // 날개 깊이 이해하기
+  html += `<div class="card">
+    <h3 class="section-title"><em class="st-icon">&#129657;</em> 날개 (Wing) 깊이 이해하기</h3>
+    <p style="font-size:.86rem;color:var(--sub);line-height:1.75;margin-bottom:16px">
+      에니어그램에서 <b>날개</b>란, 주유형 양쪽에 인접한 두 유형 중 더 강하게 영향을 미치는 유형을 말합니다. 새의 양 날개처럼 당신의 성격에 균형과 깊이를 더해줍니다.
+    </p>
+    <div class="detail-item detail-item--muted" style="margin-bottom:12px">
+      <h4>날개의 핵심 원리</h4>
+      <ul>
+        <li><b>양쪽 날개 모두</b> 영향을 주지만, 보통 한쪽이 더 두드러집니다</li>
+        <li>날개는 <b>주유형을 바꾸지 않습니다</b> — 주유형에 독특한 풍미를 더하는 것입니다</li>
+        <li>시간이 지나면서 반대편 날개도 발달시킬 수 있습니다 — 이것이 <b>성장</b>입니다</li>
+        <li>같은 유형이라도 날개에 따라 전혀 다른 교사가 됩니다</li>
+      </ul>
+    </div>
+    <div class="detail-item detail-item--bordered" style="margin-bottom:12px">
+      <h4>예시로 이해하기</h4>
+      <p style="margin-bottom:8px"><b>1번 교사</b>의 경우:</p>
+      <ul>
+        <li><b>1w9 (이상주의자)</b> — 원칙적이지만 차분합니다. 조용히 기준을 세우고 학생들에게 인내심을 보여줍니다. 내면의 평화를 추구하며, 자신의 기준에 맞지 않아도 참을성 있게 기다립니다.</li>
+        <li><b>1w2 (옹호자)</b> — 원칙적이면서 따뜻합니다. 학생들의 잘못을 바로잡되, 동시에 그들을 진심으로 돌봅니다. 더 활동적이고 사람 지향적입니다.</li>
+      </ul>
+      <p style="margin-top:8px;font-size:.82rem;color:var(--sub)">같은 1번이지만, 교실에서의 느낌이 완전히 다르죠!</p>
+    </div>
+    <div class="detail-item detail-item--muted">
+      <h4>당신의 날개 발달 전략</h4>
+      <p>약한 쪽 날개의 긍정적 특성을 의도적으로 연습하면, 더 균형 잡힌 교사가 될 수 있습니다.</p>
+      <ul>
+        <li>주유형이 <b>${mainType}번</b>인 당신의 두 날개는 <b>${mainType===1?9:mainType-1}번</b>과 <b>${mainType===9?1:mainType+1}번</b>입니다</li>
+        <li>현재 더 강한 날개: <b>${wing}번 ${TYPE_NAMES[wing]}</b></li>
+        <li>반대편 날개의 강점도 의식적으로 연습해 보세요</li>
+      </ul>
+    </div>
+  </div>`;
+
+  // 대척점 (화살표) 깊이 이해하기
+  html += `<div class="card">
+    <h3 class="section-title"><em class="st-icon">&#128260;</em> 대척점 — 통합과 분열의 화살표</h3>
+    <p style="font-size:.86rem;color:var(--sub);line-height:1.75;margin-bottom:16px">
+      에니어그램 도형의 <b>내부 선(화살표)</b>은 각 유형이 성장할 때와 스트레스를 받을 때 어떤 유형의 특성을 보이는지를 나타냅니다. 이것을 <b>통합(Integration)</b>과 <b>분열(Disintegration)</b>, 또는 <b>대척점</b>이라 부릅니다.
+    </p>
+    <div class="detail-item detail-item--bordered" style="border-left:3px solid #1976D2;margin-bottom:12px">
+      <h4>통합 방향 (성장)</h4>
+      <p>마음이 편안하고 건강할 때, 당신은 화살표가 가리키는 유형의 <b>긍정적 특성</b>을 자연스럽게 발휘합니다. 이는 무의식적으로 일어나기도 하지만, <b>의도적으로 이 방향의 특성을 연습</b>하면 성장이 가속됩니다.</p>
+      <p style="margin-top:8px"><b>${mainType}번 → ${arrows.growth}번 (${TYPE_NAMES[arrows.growth]})</b>의 건강한 모습:</p>
+      <p style="margin-top:4px;color:var(--sub)">${TYPE_DATA[arrows.growth].healthy}</p>
+    </div>
+    <div class="detail-item detail-item--bordered" style="border-left:3px solid #C62828;margin-bottom:12px">
+      <h4>분열 방향 (스트레스)</h4>
+      <p>과도한 스트레스를 받거나 심리적으로 불건강해지면, 화살표 반대 방향 유형의 <b>부정적 특성</b>이 나타납니다. 이것은 "나답지 않은" 행동으로 느껴지며, <b>스트레스 신호</b>입니다.</p>
+      <p style="margin-top:8px"><b>${mainType}번 → ${arrows.stress}번 (${TYPE_NAMES[arrows.stress]})</b>의 주의할 모습:</p>
+      <p style="margin-top:4px;color:var(--sub)">${TYPE_DATA[arrows.stress].unhealthy}</p>
+    </div>
+    <div class="detail-item detail-item--muted" style="margin-bottom:12px">
+      <h4>전체 화살표 지도</h4>
+      <p style="margin-bottom:10px;font-size:.82rem;color:var(--sub)">각 유형의 성장과 스트레스 방향:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        ${Object.entries(ARROWS).map(function([t,a]){
+          var isMine = parseInt(t)===mainType;
+          var borderStyle = isMine ? 'border-color:'+TYPE_COLORS[t]+';border-width:2px' : '';
+          return '<div style="padding:10px;border-radius:8px;background:var(--card);border:1px solid var(--border-light);font-size:.8rem;'+borderStyle+'">'
+            +'<span style="color:'+TYPE_COLORS[t]+';font-weight:700">'+t+'번 '+TYPE_NAMES[t]+'</span><br>'
+            +'<span style="color:#1565C0">성장 → '+a.growth+'번</span><br>'
+            +'<span style="color:#C62828">스트레스 → '+a.stress+'번</span>'
+            +'</div>';
+        }).join('')}
+      </div>
+    </div>
+    <div class="detail-item detail-item--bordered">
+      <h4>교사를 위한 대척점 활용법</h4>
+      <ul>
+        <li><b>스트레스 방향의 특성이 나타나면</b> — 자신에게 휴식이 필요하다는 신호입니다. 학기말, 행사 시즌에 특히 주의하세요</li>
+        <li><b>성장 방향의 특성을 의도적으로 연습하세요</b> — ${mainType}번인 당신은 ${arrows.growth}번 ${TYPE_NAMES[arrows.growth]}의 건강한 모습을 닮아가는 것이 성장 방향입니다</li>
+        <li><b>동료 교사의 스트레스 신호를 알아차리세요</b> — "평소와 다른 모습"은 그 교사가 분열 방향으로 갔다는 뜻일 수 있습니다</li>
+      </ul>
+    </div>
+  </div>`;
+
+  // 건강 수준
+  html += `<div class="card">
+    <h3 class="section-title"><em class="st-icon">&#128200;</em> 건강 수준 (Levels of Development)</h3>
+    <p style="font-size:.86rem;color:var(--sub);line-height:1.75;margin-bottom:16px">
+      Riso-Hudson은 각 유형 안에서 <b>9단계 건강 수준</b>을 정의했습니다. 같은 유형이라도 건강 수준에 따라 전혀 다른 모습을 보입니다. 유형보다 <b>건강 수준이 더 중요</b>하다는 것이 에니어그램의 핵심 메시지입니다.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="detail-item" style="background:#E8F5E9;border-radius:10px">
+        <h4 style="color:#2E7D32">건강한 수준 (1-3단계)</h4>
+        <p style="color:#1B5E20"><b>해방 → 심리적 역량 → 사회적 가치</b></p>
+        <p>자신의 유형적 집착에서 벗어나, 진정한 강점을 발휘합니다. 교사로서 학생들에게 깊은 영감을 주고, 유형의 최선을 보여줍니다.</p>
+        <p style="margin-top:6px;font-size:.82rem"><b>${mainType}번의 건강한 모습:</b> ${data.healthy}</p>
+      </div>
+      <div class="detail-item" style="background:#FFF3E0;border-radius:10px">
+        <h4 style="color:#E65100">보통 수준 (4-6단계)</h4>
+        <p style="color:#BF360C"><b>고착 → 과잉보상 → 갈등</b></p>
+        <p>자아의 전략이 강화되면서 유형적 패턴에 갇히기 시작합니다. 대부분의 사람들이 이 범위에서 살아가며, 자기 인식을 통해 건강한 방향으로 이동할 수 있습니다.</p>
+      </div>
+      <div class="detail-item" style="background:#FFEBEE;border-radius:10px">
+        <h4 style="color:#C62828">불건강한 수준 (7-9단계)</h4>
+        <p style="color:#B71C1C"><b>위반 → 망상 → 병리적 파괴</b></p>
+        <p>극심한 스트레스와 방어기제로 인해 유형의 부정적 특성이 극단적으로 드러납니다. 전문적 도움이 필요할 수 있습니다.</p>
+        <p style="margin-top:6px;font-size:.82rem"><b>${mainType}번의 주의할 모습:</b> ${data.unhealthy}</p>
+      </div>
+    </div>
+    <p style="margin-top:14px;font-size:.84rem;color:var(--sub);line-height:1.7">
+      <b>핵심 메시지:</b> 에니어그램의 목적은 유형을 "알고 끝"이 아닙니다. 자신의 현재 건강 수준을 인식하고, 의식적으로 건강한 방향으로 이동하는 것이 진정한 성장입니다.
+    </p>
+  </div>`;
+
+  // 교사 활용 가이드
+  html += `<div class="card card--tinted" style="background:rgba(${tcRgb},.035);border:1px solid rgba(${tcRgb},.1)">
+    <h3 class="section-title"><em class="st-icon">&#127891;</em> 교사를 위한 에니어그램 활용 가이드</h3>
+    <div class="detail-grid">
+      <div class="detail-item detail-item--bordered">
+        <h4>자기 이해</h4>
+        <p>당신의 주유형(${mainType}번)이 스트레스를 받을 때 어떤 패턴이 나타나는지 알아차리세요. ${arrows.stress}번의 부정적 특성이 보이면, 자기 돌봄이 필요하다는 신호입니다.</p>
+      </div>
+      <div class="detail-item detail-item--muted">
+        <h4>동료 교사 이해</h4>
+        <p>다른 유형의 동료를 "이상하다"고 판단하기 전에, 그들의 핵심 동기를 이해해 보세요. 1번 교사의 꼼꼼함은 학생을 위한 것이고, 7번 교사의 유연함도 학생을 위한 것입니다.</p>
+      </div>
+      <div class="detail-item detail-item--bordered">
+        <h4>학생 이해</h4>
+        <p>학생들에게도 에니어그램적 경향이 있습니다. 완벽주의적인 학생(1번 경향)에겐 실수해도 괜찮다는 메시지가, 인정받고 싶은 학생(3번 경향)에겐 과정의 가치를 알려주는 것이 도움됩니다.</p>
+      </div>
+      <div class="detail-item detail-item--muted">
+        <h4>성장 전략</h4>
+        <ul>
+          <li><b>날개 발달:</b> 약한 쪽 날개의 긍정적 특성을 한 달에 하나씩 연습해 보세요</li>
+          <li><b>통합 방향:</b> ${arrows.growth}번 ${TYPE_NAMES[arrows.growth]}의 건강한 특성을 의식적으로 수업에 적용해 보세요</li>
+          <li><b>센터 균형:</b> ${center==='body'?'감정과 사고':center==='heart'?'본능과 사고':'감정과 본능'} 센터도 함께 활용하는 연습을 하세요</li>
+        </ul>
+      </div>
+    </div>
+  </div>`;
+
   // All 9 types — accordion
   html += `<div class="card">
     <h3 class="section-title"><em class="st-icon">&#128214;</em> 9가지 유형 살펴보기</h3>
