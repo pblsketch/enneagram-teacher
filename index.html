@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <title>교사 에니어그램 테스트</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1171,23 +1173,63 @@ function isMobileDevice(){
 }
 
 function showImageModal(dataUrl){
+  var old = document.getElementById('imgSaveModal');
+  if(old) old.parentNode.removeChild(old);
   var overlay = document.createElement('div');
   overlay.id = 'imgSaveModal';
-  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 16px;box-sizing:border-box;overflow-y:auto;-webkit-overflow-scrolling:touch;';
   var msg = document.createElement('p');
-  msg.style.cssText = 'color:#fff;font-size:15px;margin:0 0 12px;text-align:center;line-height:1.5;';
-  msg.textContent = '이미지를 꾹 눌러서 저장하세요';
+  msg.style.cssText = 'color:#fff;font-size:16px;margin:0 0 14px;text-align:center;line-height:1.6;font-weight:600;';
+  msg.innerHTML = '아래 이미지를 <u>꾹 눌러서</u> 저장하세요';
   var img = document.createElement('img');
   img.src = dataUrl;
-  img.style.cssText = 'max-width:100%;max-height:70vh;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.5);';
+  img.style.cssText = 'max-width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.6);';
   var closeBtn = document.createElement('button');
   closeBtn.textContent = '닫기';
-  closeBtn.style.cssText = 'margin-top:16px;padding:10px 32px;border:none;border-radius:8px;background:#fff;color:#333;font-size:15px;font-weight:600;cursor:pointer;';
-  closeBtn.onclick = function(){ document.body.removeChild(overlay); };
-  overlay.onclick = function(e){ if(e.target===overlay) document.body.removeChild(overlay); };
+  closeBtn.style.cssText = 'margin-top:18px;padding:12px 40px;border:none;border-radius:10px;background:#fff;color:#333;font-size:15px;font-weight:600;cursor:pointer;flex-shrink:0;';
+  closeBtn.onclick = function(){ overlay.parentNode.removeChild(overlay); };
   overlay.appendChild(msg);
   overlay.appendChild(img);
   overlay.appendChild(closeBtn);
+  document.body.appendChild(overlay);
+}
+
+function showFallbackModal(){
+  var old = document.getElementById('imgSaveModal');
+  if(old) old.parentNode.removeChild(old);
+  var overlay = document.createElement('div');
+  overlay.id = 'imgSaveModal';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#fff;border-radius:16px;padding:28px 24px;max-width:320px;text-align:center;';
+  box.innerHTML = '<p style="font-size:16px;font-weight:700;margin:0 0 12px;color:#1A1A1A;">이미지 저장 안내</p>'
+    +'<p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 20px;">인앱 브라우저에서는 이미지 저장이 제한됩니다.<br>아래 방법을 이용해 주세요:</p>'
+    +'<p style="font-size:14px;color:#333;line-height:1.8;margin:0 0 20px;text-align:left;">'
+    +'<b>방법 1)</b> 우측 상단 메뉴(⋯)에서<br>&nbsp;&nbsp;"외부 브라우저로 열기" 선택<br>'
+    +'<b>방법 2)</b> 스크린샷으로 저장</p>';
+  var copyBtn = document.createElement('button');
+  copyBtn.textContent = '링크 복사하기';
+  copyBtn.style.cssText = 'width:100%;padding:12px;border:none;border-radius:10px;background:#3D5A80;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:10px;';
+  copyBtn.onclick = function(){
+    var url = location.href;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){ copyBtn.textContent = '복사 완료!'; });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url; ta.style.cssText = 'position:fixed;left:-9999px';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta); copyBtn.textContent = '복사 완료!';
+    }
+    setTimeout(function(){ copyBtn.textContent = '링크 복사하기'; }, 2000);
+  };
+  var closeBtn = document.createElement('button');
+  closeBtn.textContent = '닫기';
+  closeBtn.style.cssText = 'width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;background:#fff;color:#555;font-size:15px;cursor:pointer;';
+  closeBtn.onclick = function(){ overlay.parentNode.removeChild(overlay); };
+  box.appendChild(copyBtn);
+  box.appendChild(closeBtn);
+  overlay.appendChild(box);
+  overlay.onclick = function(e){ if(e.target===overlay) overlay.parentNode.removeChild(overlay); };
   document.body.appendChild(overlay);
 }
 
@@ -1204,32 +1246,43 @@ function saveAsImage(){
   }
 
   function doCapture(){
-    document.body.classList.add('capturing');
-    html2canvas(el,{
-      backgroundColor:'#F7F5F0',
-      scale:2,
-      useCORS:true,
-      logging:false,
-      windowWidth:el.scrollWidth,
-      windowHeight:el.scrollHeight
-    }).then(function(canvas){
+    try {
+      document.body.classList.add('capturing');
+      html2canvas(el,{
+        backgroundColor:'#F7F5F0',
+        scale:2,
+        useCORS:true,
+        logging:false,
+        windowWidth:el.scrollWidth,
+        windowHeight:el.scrollHeight
+      }).then(function(canvas){
+        document.body.classList.remove('capturing');
+        try {
+          var dataUrl = canvas.toDataURL('image/png');
+          if(isMobileDevice()){
+            showImageModal(dataUrl);
+          } else {
+            var link = document.createElement('a');
+            link.download = '교사_에니어그램_결과.png';
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+        } catch(e){
+          showFallbackModal();
+        }
+        restoreBtn();
+      }).catch(function(err){
+        document.body.classList.remove('capturing');
+        showFallbackModal();
+        restoreBtn();
+      });
+    } catch(e){
       document.body.classList.remove('capturing');
-      var dataUrl = canvas.toDataURL('image/png');
-      if(isMobileDevice()){
-        showImageModal(dataUrl);
-      } else {
-        var link = document.createElement('a');
-        link.download = '교사_에니어그램_결과.png';
-        link.href = dataUrl;
-        link.click();
-      }
+      showFallbackModal();
       restoreBtn();
-    }).catch(function(err){
-      document.body.classList.remove('capturing');
-      console.error('html2canvas error:', err);
-      alert('이미지 저장에 실패했습니다. 스크린샷을 이용해 주세요.');
-      restoreBtn();
-    });
+    }
   }
 
   if(typeof html2canvas !== 'undefined'){
@@ -1237,9 +1290,11 @@ function saveAsImage(){
   } else {
     var script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-    script.onload = doCapture;
+    script.onload = function(){
+      setTimeout(doCapture, 100);
+    };
     script.onerror = function(){
-      alert('이미지 저장 라이브러리를 불러올 수 없습니다. 네트워크를 확인해 주세요.');
+      showFallbackModal();
       restoreBtn();
     };
     document.head.appendChild(script);
