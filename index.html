@@ -1166,9 +1166,8 @@ function showResult(){
   },200);
 }
 
-function isInAppBrowser(){
-  var ua = navigator.userAgent || '';
-  return /FBAN|FBAV|Instagram|Threads|Line\/|KAKAOTALK|NAVER/i.test(ua);
+function isMobileDevice(){
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
 }
 
 function showImageModal(dataUrl){
@@ -1216,7 +1215,7 @@ function saveAsImage(){
     }).then(function(canvas){
       document.body.classList.remove('capturing');
       var dataUrl = canvas.toDataURL('image/png');
-      if(isInAppBrowser()){
+      if(isMobileDevice()){
         showImageModal(dataUrl);
       } else {
         var link = document.createElement('a');
