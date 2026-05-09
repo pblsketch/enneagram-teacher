@@ -1166,16 +1166,45 @@ function showResult(){
   },200);
 }
 
+function isInAppBrowser(){
+  var ua = navigator.userAgent || '';
+  return /FBAN|FBAV|Instagram|Threads|Line\/|KAKAOTALK|NAVER/i.test(ua);
+}
+
+function showImageModal(dataUrl){
+  var overlay = document.createElement('div');
+  overlay.id = 'imgSaveModal';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+  var msg = document.createElement('p');
+  msg.style.cssText = 'color:#fff;font-size:15px;margin:0 0 12px;text-align:center;line-height:1.5;';
+  msg.textContent = '이미지를 꾹 눌러서 저장하세요';
+  var img = document.createElement('img');
+  img.src = dataUrl;
+  img.style.cssText = 'max-width:100%;max-height:70vh;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.5);';
+  var closeBtn = document.createElement('button');
+  closeBtn.textContent = '닫기';
+  closeBtn.style.cssText = 'margin-top:16px;padding:10px 32px;border:none;border-radius:8px;background:#fff;color:#333;font-size:15px;font-weight:600;cursor:pointer;';
+  closeBtn.onclick = function(){ document.body.removeChild(overlay); };
+  overlay.onclick = function(e){ if(e.target===overlay) document.body.removeChild(overlay); };
+  overlay.appendChild(msg);
+  overlay.appendChild(img);
+  overlay.appendChild(closeBtn);
+  document.body.appendChild(overlay);
+}
+
 function saveAsImage(){
-  const el = document.getElementById('saveArea');
+  var el = document.getElementById('saveArea');
   if(!el){ alert('저장할 결과가 없습니다.'); return; }
 
-  const btn = document.querySelector('.save-area .btn-primary');
-  const origText = btn ? btn.innerHTML : '';
+  var btn = document.querySelector('.save-area .btn-primary');
+  var origText = btn ? btn.innerHTML : '';
   if(btn){ btn.innerHTML = '저장 중...'; btn.disabled = true; }
 
+  function restoreBtn(){
+    if(btn){ btn.innerHTML = origText; btn.disabled = false; }
+  }
+
   function doCapture(){
-    // Hide body::before grain overlay during capture
     document.body.classList.add('capturing');
     html2canvas(el,{
       backgroundColor:'#F7F5F0',
@@ -1186,16 +1215,21 @@ function saveAsImage(){
       windowHeight:el.scrollHeight
     }).then(function(canvas){
       document.body.classList.remove('capturing');
-      var link = document.createElement('a');
-      link.download = '교사_에니어그램_결과.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      if(btn){ btn.innerHTML = origText; btn.disabled = false; }
+      var dataUrl = canvas.toDataURL('image/png');
+      if(isInAppBrowser()){
+        showImageModal(dataUrl);
+      } else {
+        var link = document.createElement('a');
+        link.download = '교사_에니어그램_결과.png';
+        link.href = dataUrl;
+        link.click();
+      }
+      restoreBtn();
     }).catch(function(err){
       document.body.classList.remove('capturing');
       console.error('html2canvas error:', err);
-      alert('이미지 저장에 실패했습니다. 인쇄/PDF 기능을 이용해 주세요.');
-      if(btn){ btn.innerHTML = origText; btn.disabled = false; }
+      alert('이미지 저장에 실패했습니다. 스크린샷을 이용해 주세요.');
+      restoreBtn();
     });
   }
 
@@ -1207,7 +1241,7 @@ function saveAsImage(){
     script.onload = doCapture;
     script.onerror = function(){
       alert('이미지 저장 라이브러리를 불러올 수 없습니다. 네트워크를 확인해 주세요.');
-      if(btn){ btn.innerHTML = origText; btn.disabled = false; }
+      restoreBtn();
     };
     document.head.appendChild(script);
   }
